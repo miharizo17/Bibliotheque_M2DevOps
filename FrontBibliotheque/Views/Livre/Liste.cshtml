@@ -1,0 +1,456 @@
+
+<head>
+    <meta charset="utf-8" />
+    <title>Bibliothèque Moderne</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header-section {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            color: white;
+        }
+
+        .book-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .book-card img {
+            height: 280px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        #pdfCanvas {
+            max-width: 100%;
+        }
+
+        .icon-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.icon-btn i {
+    font-size: 1.1rem;
+}
+
+.modal-book-image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #e2e8f0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-book-image {
+    transition: transform 0.3s ease;
+}
+
+.modal-book-image:hover {
+    transform: scale(1.05);
+}
+
+
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+
+
+<div class="container ">
+    <div class="header-section">
+        <p><h3>« La lecture transforme, la bibliothèque inspire. » <strong id="userName"></h3></p>
+        <div class="row mb-4 justify-content-center">
+            <div class="col-md-6" id="typeLivreContainer">
+                <!-- Les checkboxes seront injectées ici -->
+            </div>
+            <div class="col-md-4 d-flex gap-2">
+                <input type="text" id="filterTitre" class="form-control" placeholder="Titre, Auteur">
+                <button class="btn btn-primary" id="btnFilter">Filtrer</button>
+            </div>
+        </div>
+
+        <div class="row" id="livresContainer"></div>
+        <div class="row">
+        <div class="col-12 d-flex justify-content-center mt-4">
+            <nav>
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL INFO ================= -->
+<div class="modal fade" id="livreModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalTitre"></h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <img id="modalImage" class="modal-book-image">
+                </div>
+
+                <p><strong>Sous-titre :</strong> <span id="modalSousTitre"></span></p>
+                <p><strong>Auteur :</strong> <span id="modalAuteur"></span></p>
+                <p><strong>Type :</strong> <span id="modalType"></span></p>
+                <p><strong>Date :</strong> <span id="modalDate"></span></p>
+                <hr>
+                <p id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL PDF ================= -->
+<div class="modal fade" id="pdfModal" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 id="pdfModalTitle">📖 Lecture du livre</h5>
+
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-0 d-flex flex-column">
+
+                <div class="flex-grow-1 bg-dark overflow-auto text-center">
+                    <canvas id="pdfCanvas"></canvas>
+                </div>
+
+                <div class="p-2 bg-light border-top text-center">
+                    <button class="btn btn-secondary me-2" id="prevPage">← Précédent</button>
+                    Page <span id="pageNum">1</span> / <span id="pageCount">1</span>
+                    <button class="btn btn-secondary ms-2" id="nextPage">Suivant →</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<script>
+/* ================= DOM ================= */
+const pageNumSpan   = document.getElementById("pageNum");
+const pageCountSpan = document.getElementById("pageCount");
+const canvas        = document.getElementById("pdfCanvas");
+const ctx           = canvas.getContext("2d");
+
+/* ================= MODALS ================= */
+const livreModalInstance = new bootstrap.Modal(document.getElementById("livreModal"));
+const pdfModalInstance   = new bootstrap.Modal(document.getElementById("pdfModal"));
+
+/* ================= PDF ================= */
+let pdfDoc = null;
+let pageNum = 1;
+let pageRendering = false;
+let pageNumPending = null;
+const scale = 1.5;
+
+/* ================= FETCH LIVRES ================= */
+let livresData = [];      // tous les livres chargés
+let currentPage = 1;
+const itemsPerPage = 3;
+
+// Charger les livres initiaux
+function loadLivres(idtypelivre = null, texte = null) {
+    let url = "/api/livre?";
+    if (idtypelivre) url += `idtypelivre=${idtypelivre}&`;
+    if (texte) url += `autre=${encodeURIComponent(texte)}&`;
+
+    fetch(url)
+        .then(res => res.json())
+        .then(livres => {
+            livresData = livres;
+            rendrePageListe(1);
+            renderPagination();
+        });
+}
+
+// Pagination
+function rendrePageListe(page) {
+    const container = document.getElementById("livresContainer");
+    container.innerHTML = "";
+    currentPage = page;
+
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    const pageItems = livresData.slice(start, end);
+
+    pageItems.forEach(livre => {
+        container.innerHTML += `
+        <div class="col-md-4 mb-4">
+            <div class="book-card">
+                <img src="/assets/${livre.image}">
+                <div class="p-3 bg-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1" style="color: black">${livre.titre}</h5>
+                        <p class="text-muted mb-0">${livre.sous_titre ?? ""}</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary btn-sm icon-btn"
+                                title="Voir plus"
+                                onclick='voirPlus(${JSON.stringify(livre)})'>
+                            <i class="bi bi-eye"></i>
+                        </button>
+
+                        <button class="btn btn-outline-success btn-sm icon-btn"
+                                title="Lire le livre"
+                                onclick='lireLivre("${livre.document}", "${livre.titre.replace(/"/g, "&quot;")}");'>
+                            <i class="bi bi-book"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+}
+
+// Pagination UI
+function renderPagination() {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const totalPages = Math.ceil(livresData.length / itemsPerPage);
+
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+            <a class="page-link" href="#" onclick="rendrePageListe(${currentPage - 1})">«</a>
+        </li>
+    `;
+
+    for (let i = 1; i <= totalPages; i++) {
+        pagination.innerHTML += `
+            <li class="page-item ${i === currentPage ? "active" : ""}">
+                <a class="page-link" href="#" onclick="rendrePageListe(${i})">${i}</a>
+            </li>
+        `;
+    }
+
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === totalPages ? "disabled" : ""}">
+            <a class="page-link" href="#" onclick="rendrePageListe(${currentPage + 1})">»</a>
+        </li>
+    `;
+}
+
+// Charger types de livre et créer checkboxes
+function loadTypeLivre() {
+    fetch("/api/livre/typeLivre")
+        .then(res => res.json())
+        .then(types => {
+            const container = document.getElementById("typeLivreContainer");
+            container.innerHTML = "";
+
+            types.forEach(type => {
+                const div = document.createElement("div");
+                div.className = "form-check form-check-inline";
+
+                div.innerHTML = `
+                    <input class="form-check-input" type="checkbox" value="${type.id}" id="type_${type.id}">
+                    <label class="form-check-label" for="type_${type.id}">${type.type_livre}</label>
+                `;
+                container.appendChild(div);
+            });
+
+            // Ajouter écoute sur chaque checkbox
+            container.querySelectorAll("input[type=checkbox]").forEach(cb => {
+   cb.addEventListener("change", () => {
+    if (cb.checked) {
+        document
+            .querySelectorAll("#typeLivreContainer input[type=checkbox]")
+            .forEach(other => {
+                if (other !== cb) other.checked = false;
+            });
+    }
+    applyFilter();
+});
+
+});
+
+        });
+}
+
+// Récupérer types sélectionnés
+function getSelectedTypes() {
+    const checkboxes = document.querySelectorAll("#typeLivreContainer input[type=checkbox]:checked");
+    return Array.from(checkboxes).map(cb => cb.value);
+}
+
+// Appliquer le filtre
+// function applyFilter() {
+//     const selectedTypes = getSelectedTypes();
+//     const texte = document.getElementById("filterTitre").value;
+
+//     // Pour simplifier, si plusieurs types sélectionnés, on prend le premier (ou adapter backend)
+//     let idtypelivre = selectedTypes.length > 0 ? selectedTypes[0] : null;
+
+//     loadLivres(idtypelivre, texte);
+// }
+
+function applyFilter() {
+    const selectedTypes = getSelectedTypes();
+    const texte = document.getElementById("filterTitre").value.trim();
+
+    // si aucun checkbox → null
+    const idtypelivre = selectedTypes.length > 0 ? selectedTypes[0] : null;
+
+    loadLivres(idtypelivre, texte);
+}
+
+
+// Bouton filtrer pour le texte
+document.getElementById("btnFilter").addEventListener("click", () => applyFilter());
+
+// Charger tout au démarrage
+document.addEventListener("DOMContentLoaded", () => {
+    loadTypeLivre();
+    loadLivres();
+});
+
+/* ================= MODAL INFO ================= */
+function voirPlus(livre) {
+    modalTitre.textContent = livre.titre;
+    modalSousTitre.textContent = livre.sous_titre ?? "";
+    modalAuteur.textContent = livre.auteur;
+    modalType.textContent = livre.type_livre;
+    modalDate.textContent = livre.date_edition;
+    modalDescription.textContent = livre.description;
+    modalImage.src = "/assets/" + livre.image;
+
+    livreModalInstance.show();
+}
+
+/* ================= LECTURE PDF ================= */
+function lireLivre(pdfPath, titreLivre) {
+    livreModalInstance.hide();
+
+    // 🔹 Mettre le titre du livre dans l'en-tête du modal
+    document.getElementById("pdfModalTitle").textContent = "📖 " + titreLivre;
+
+    pdfModalInstance.show();
+
+    pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
+        pdfDoc = pdf;
+        pageNum = 1;
+        pageCountSpan.textContent = pdf.numPages;
+        renderPage(pageNum);
+    });
+}
+
+function renderPage(num) {
+    pageRendering = true;
+
+    pdfDoc.getPage(num).then(page => {
+        const viewport = page.getViewport({ scale });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+            pageRendering = false;
+            pageNumSpan.textContent = pageNum;
+
+            if (pageNumPending !== null) {
+                renderPage(pageNumPending);
+                pageNumPending = null;
+            }
+        });
+    });
+}
+
+function queueRenderPage(num) {
+    if (pageRendering) pageNumPending = num;
+    else renderPage(num);
+}
+
+document.getElementById("prevPage").onclick = () => {
+    if (pageNum <= 1) return;
+    pageNum--;
+    queueRenderPage(pageNum);
+};
+
+document.getElementById("nextPage").onclick = () => {
+    if (pageNum >= pdfDoc.numPages) return;
+    pageNum++;
+    queueRenderPage(pageNum);
+};
+
+/* ================= CLEAN ================= */
+document.getElementById("pdfModal").addEventListener("hidden.bs.modal", () => {
+    document.getElementById("pdfModalTitle").textContent = "📖 Lecture du livre";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pdfDoc = null;
+});
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+
+    tooltipTriggerList.forEach(el => {
+        new bootstrap.Tooltip(el);
+    });
+});
+</script>
+
+
+<script>
+// Charger la liste des types depuis le backend
+function loadTypeLivre() {
+    fetch("/api/livre/typeLivre")
+        .then(res => res.json())
+        .then(types => {
+            const container = document.getElementById("typeLivreContainer");
+            container.innerHTML = ""; // vider avant de remplir
+
+            types.forEach(type => {
+                const div = document.createElement("div");
+                div.className = "form-check form-check-inline";
+
+                div.innerHTML = `
+                    <input class="form-check-input" type="checkbox" value="${type.id}" id="type_${type.id}">
+                    <label class="form-check-label" for="type_${type.id}">${type.type_livre}</label>
+                `;
+
+                container.appendChild(div);
+            });
+        })
+        .catch(err => console.error("Erreur lors du chargement des types :", err));
+}
+
+// Appel au chargement de la page
+document.addEventListener("DOMContentLoaded", loadTypeLivre);
+</script>
+

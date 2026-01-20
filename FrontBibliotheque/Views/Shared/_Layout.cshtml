@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FrontBibliotheque</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FrontBibliotheque.styles.css" asp-append-version="true" />
+    <style>
+        /* Header moderne avec dégradé */
+        .modern-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 0;
+        }
+
+        .modern-navbar {
+            padding: 1rem 0;
+        }
+
+        /* Logo stylisé */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        /* Liens de navigation */
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem !important;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            margin: 0 0.3rem;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        /* Bouton utilisateur à droite */
+        .user-section {
+            margin-left: auto;
+        }
+
+        .user-link {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1.5rem !important;
+        }
+
+        .user-link:hover {
+            background-color: white;
+            color: #667eea !important;
+            border-color: white;
+        }
+
+        /* Toggler pour mobile */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+    .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+    </style>
+</head>
+<body>
+    <header class="modern-header">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm modern-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    📚 FrontBibliotheque
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" 
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="V_livre" asp-action="Index">
+                                Accueil
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                            href="@Url.Action("Index", "HistoriqueAbonnement")"
+                            onclick="return handleAbonnementClick(event)">
+                                S’abonner
+                            </a>
+
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav user-section">
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle user-link" href="#" id="userDropdown"
+                            role="button" data-bs-toggle="dropdown">
+                                👤 <strong id="userName">Utilisateur</strong>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <!-- MENU INVITÉ -->
+                                <li id="guestMenu">
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                        Se connecter
+                                    </a>
+                                </li>
+                                <li id="guestMenu2">
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="Register">
+                                        Inscription
+                                    </a>
+                                </li>
+
+                                <!-- MENU CONNECTÉ -->
+                                <li id="userMenu" class="d-none">
+                                    <a class="dropdown-item" href="/profil">
+                                        À propos
+                                    </a>
+                                </li>
+                                <li id="logoutMenu" class="d-none">
+                                    <a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        Déconnexion
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+
+                
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+<!-- ================= MODAL LOGIN ================= -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">🔒 Connexion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+               <form id="loginForm">
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Mot de passe</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+
+                    <div id="loginMessage" class="alert d-none" role="alert"></div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Se connecter</button>
+                    </div>
+                </form>
+                <div id="loginMessage" class="alert d-none" role="alert"></div>
+
+
+                <p class="mt-3 text-center">
+                    Pas de compte ? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Inscrivez-vous</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL OBLIGATION CONNEXION ===== -->
+<div class="modal fade" id="loginRequiredModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">🔐 Connexion requise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p>Veuillez d'abord vous connecter pour accéder à l'abonnement.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary" data-bs-dismiss="modal"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Se connecter
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const messageDiv = document.getElementById("loginMessage");
+
+    fetch("/api/utilisateurs/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            mail: email,
+            mdp: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        messageDiv.classList.remove("d-none");
+
+        if (data.message === "1") {
+            messageDiv.className = "alert alert-success";
+            messageDiv.textContent = "✅ Connexion réussie";
+
+            // Fermer le modal après 1s
+            setTimeout(() => {
+                const modal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+                modal.hide();
+                location.reload(); // optionnel
+            }, 1000);
+            if (data.message === "1") {
+                loadUserProfile();
+            }
+
+
+        } else {
+            messageDiv.className = "alert alert-danger";
+            messageDiv.textContent = "❌ Veuillez vérifier votre email ou mot de passe";
+        }
+    })
+    .catch(error => {
+        messageDiv.className = "alert alert-danger";
+        messageDiv.textContent = "Erreur serveur";
+        console.error(error);
+    });
+});
+
+
+
+</script>
+
+<script>
+ let currentUserId = null;
+function updateNavbar(user) {
+    if (user && user.nom) {
+        // connecté
+        document.getElementById("userName").textContent = user.nom;
+        currentUserId = user.id;
+
+        document.getElementById("guestMenu").classList.add("d-none");
+        document.getElementById("guestMenu2").classList.add("d-none");
+
+        document.getElementById("userMenu").classList.remove("d-none");
+        document.getElementById("logoutMenu").classList.remove("d-none");
+    } else {
+        // invité
+        document.getElementById("userName").textContent = "Utilisateur";
+
+        document.getElementById("guestMenu").classList.remove("d-none");
+        document.getElementById("guestMenu2").classList.remove("d-none");
+
+        document.getElementById("userMenu").classList.add("d-none");
+        document.getElementById("logoutMenu").classList.add("d-none");
+    }
+}
+
+function loadUserProfile() {
+    fetch("/api/utilisateurs/profile")
+        .then(res => res.ok ? res.json() : null)
+        .then(user => updateNavbar(user))
+        .catch(() => updateNavbar(null));
+}
+
+document.addEventListener("DOMContentLoaded", loadUserProfile);
+</script>
+
+<script>
+function logout() {
+    fetch("/api/utilisateurs/logout", {
+        method: "POST",
+        credentials: "same-origin"
+    })
+    .then(() => {
+        // Réinitialiser l'UI
+        document.getElementById("userName").textContent = "Utilisateur";
+
+        document.getElementById("userMenu")?.classList.add("d-none");
+        document.getElementById("logoutMenu")?.classList.add("d-none");
+
+        document.getElementById("guestMenu")?.classList.remove("d-none");
+        document.getElementById("guestMenu2")?.classList.remove("d-none");
+
+        // Option simple : reload
+        location.reload();
+    });
+}
+</script>
+
+<script>
+function handleAbonnementClick(event) {
+
+    if (currentUserId === null) {
+        // Bloquer la navigation MVC
+        event.preventDefault();
+
+        const modal = new bootstrap.Modal(
+            document.getElementById("loginRequiredModal")
+        );
+        modal.show();
+
+        return false;
+    }
+
+    // utilisateur connecté → laisser MVC faire la redirection
+    return true;
+}
+</script>
+
+
+    <!-- <footer class="border-top footer text-muted mt-5">
+        <div class="container">
+            &copy; 2026 - Bibliotheque - <a asp-area="" asp-controller="Home" asp-action="Privacy">1541&1602</a>
+        </div>
+    </footer> -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,136 @@
+<h2>CRUD Utilisateurs</h2>
+
+<!-- Formulaire -->
+<form id="formUtilisateur">
+    <input type="hidden" id="id" />
+    <input type="text" id="nom" placeholder="Nom" required />
+    <input type="text" id="prenom" placeholder="Prénom" required />
+    <input type="text" id="telephone" placeholder="Téléphone" />
+    <input type="email" id="mail" placeholder="Mail" required />
+    <input type="text" id="mdp" placeholder="Mot de passe" required />
+    <select id="etat">
+        <option value="0">Inactif</option>
+        <option value="1">Actif</option>
+    </select>
+    <button type="submit">Enregistrer</button>
+</form>
+
+<hr />
+
+<!-- Table -->
+<table border="1">
+    <thead>
+        <tr>
+        <th>Dateentree</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Téléphone</th>
+            <th>Mail</th>
+            <th>Etat</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+</table>
+
+<script>
+async function charger() {
+    const res = await fetch('/api/utilisateurs');
+    const data = await res.json();
+
+    const tbody = document.getElementById('tbody');
+    tbody.innerHTML = '';
+
+    data.forEach(u => {
+        tbody.innerHTML += `
+            <tr>
+            <td>${formatDate(u.dateentree)}</td>
+                <td>${u.nom}</td>
+                <td>${u.prenom}</td>
+                <td>${u.telephone}</td>
+                <td>${u.mail}</td>
+                <td>${u.etat == 1 ? "Actif" : "Inactif"}</td>
+                <td>
+                    <button onclick="modifier(${u.id})">Modifier</button>
+                    <button onclick="supprimer(${u.id})">Supprimer</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+// --------------------
+// Soumission du formulaire
+// --------------------
+document.getElementById('formUtilisateur').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const id = document.getElementById('id').value;
+    const data = {
+        nom: document.getElementById('nom').value,
+        prenom: document.getElementById('prenom').value,
+        telephone: document.getElementById('telephone').value,
+        mail: document.getElementById('mail').value,
+        mdp: document.getElementById('mdp').value,
+        etat: parseInt(document.getElementById('etat').value)
+    };
+
+    if(id) {
+        // Update
+        await fetch('/api/utilisateurs/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+    } else {
+        // Create
+        await fetch('/api/utilisateurs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+    }
+
+    document.getElementById('formUtilisateur').reset();
+    charger();
+});
+
+// --------------------
+// Modifier un utilisateur
+// --------------------
+async function modifier(id) {
+    const res = await fetch('/api/utilisateurs/' + id);
+    const u = await res.json();
+
+    document.getElementById('id').value = u.id;
+    document.getElementById('nom').value = u.nom;
+    document.getElementById('prenom').value = u.prenom;
+    document.getElementById('telephone').value = u.telephone;
+    document.getElementById('mail').value = u.mail;
+    document.getElementById('mdp').value = u.mdp;
+    document.getElementById('etat').value = u.etat;
+}
+
+// --------------------
+// Supprimer un utilisateur
+// --------------------
+async function supprimer(id) {
+    if(confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
+        await fetch('/api/utilisateurs/' + id, { method: 'DELETE' });
+        charger();
+    }
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const jour = String(date.getDate()).padStart(2, '0');
+    const mois = String(date.getMonth() + 1).padStart(2, '0');
+    const annee = date.getFullYear();
+    return `${jour}/${mois}/${annee}`;
+}
+
+// --------------------
+// Charger au démarrage
+// --------------------
+charger();
+</script>

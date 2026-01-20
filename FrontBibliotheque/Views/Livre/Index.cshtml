@@ -1,0 +1,23 @@
+@model List<FrontBibliotheque.Models.LivreModel>
+
+<h2>Liste des livres</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var livre in Model)
+    {
+        <tr>
+            <td>@livre.id</td>
+            <td>@livre.titre</td>
+            <td>@livre.auteur</td>
+        </tr>
+    }
+    </tbody>
+</table>

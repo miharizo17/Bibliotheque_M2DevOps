@@ -1,0 +1,67 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = FrontBibliotheque
+build_property.RootNamespace = FrontBibliotheque
+build_property.ProjectDir = D:\MBDS\DotNet\Examen\FrontBibliotheque\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\MBDS\DotNet\Examen\FrontBibliotheque
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Abonnement/ListeAbonnement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvbm5lbWVudFxMaXN0ZUFib25uZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Livre/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGl2cmVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Livre/Liste.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGl2cmVcTGlzdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Utilisateurs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXRpbGlzYXRldXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MBDS/DotNet/Examen/FrontBibliotheque/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-g4mabw7edx
