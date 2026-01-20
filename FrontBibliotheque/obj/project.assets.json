@@ -958,11 +958,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MBDS\\DotNet\\Examen\\FrontBibliotheque\\FrontBibliotheque.csproj",
+      "projectUniqueName": "D:\\MBDS\\DotNet\\Examen\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
       "projectName": "FrontBibliotheque",
-      "projectPath": "D:\\MBDS\\DotNet\\Examen\\FrontBibliotheque\\FrontBibliotheque.csproj",
+      "projectPath": "D:\\MBDS\\DotNet\\Examen\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
       "packagesPath": "C:\\Users\\Kanto\\.nuget\\packages\\",
-      "outputPath": "D:\\MBDS\\DotNet\\Examen\\FrontBibliotheque\\obj\\",
+      "outputPath": "D:\\MBDS\\DotNet\\Examen\\Bibliotheque_M2DevOps\\FrontBibliotheque\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Kanto\\AppData\\Roaming\\NuGet\\NuGet.Config",

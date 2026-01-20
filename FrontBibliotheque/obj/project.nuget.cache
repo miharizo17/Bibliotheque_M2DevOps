@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qslG3qm1mQo=",
+  "dgSpecHash": "Vq/IRpM1brY=",
   "success": true,
-  "projectFilePath": "D:\\MBDS\\DotNet\\Examen\\FrontBibliotheque\\FrontBibliotheque.csproj",
+  "projectFilePath": "D:\\MBDS\\DotNet\\Examen\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kanto\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\Kanto\\.nuget\\packages\\azure.identity\\1.17.1\\azure.identity.1.17.1.nupkg.sha512",
