@@ -953,27 +953,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Kanto\\.nuget\\packages\\": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MBDS\\DotNet\\Examen\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
+      "projectUniqueName": "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
       "projectName": "FrontBibliotheque",
-      "projectPath": "D:\\MBDS\\DotNet\\Examen\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
-      "packagesPath": "C:\\Users\\Kanto\\.nuget\\packages\\",
-      "outputPath": "D:\\MBDS\\DotNet\\Examen\\Bibliotheque_M2DevOps\\FrontBibliotheque\\obj\\",
+      "projectPath": "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Kanto\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
