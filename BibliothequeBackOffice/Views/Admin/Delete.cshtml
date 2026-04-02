@@ -1,0 +1,102 @@
+@model LibraryBackOffice.Models.Admin
+
+@{
+    ViewData["Title"] = "Supprimer l'administrateur";
+}
+
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-trash me-2" style="color:var(--danger);"></i>Supprimer l'administrateur</h1>
+        <p class="page-subtitle">@Model.Prenom @Model.Nom — #@Model.Id</p>
+    </div>
+    <a asp-action="List" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+
+        <!-- Avertissement -->
+        <div class="admin-panel mb-4" style="border:1.5px solid rgba(239,68,68,.3);">
+            <div class="admin-panel-header" style="background:rgba(239,68,68,.06);">
+                <div class="admin-panel-title" style="color:var(--danger);">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    Confirmation de suppression
+                </div>
+            </div>
+            <div class="admin-panel-body">
+                <p style="color:var(--text-secondary);font-size:.9rem;margin:0;">
+                    Vous êtes sur le point de supprimer définitivement le compte
+                    <strong>@Model.Prenom @Model.Nom</strong> (@Model.Username).
+                    Cette action est <strong>irréversible</strong>.
+                </p>
+            </div>
+        </div>
+
+        <!-- Récap -->
+        <div class="admin-panel mb-4">
+            <div class="admin-panel-header">
+                <div class="admin-panel-title">
+                    <i class="bi bi-shield-lock"></i> Compte à supprimer
+                </div>
+            </div>
+            <div class="admin-panel-body p-0">
+                <table class="w-100" style="border-collapse:collapse;">
+                    <tbody>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-person me-2 text-accent"></i>Prénom</td>
+                            <td class="detail-value">@Html.DisplayFor(m => m.Prenom)</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-person me-2 text-accent"></i>Nom</td>
+                            <td class="detail-value">@Html.DisplayFor(m => m.Nom)</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-at me-2 text-accent"></i>Nom d'utilisateur</td>
+                            <td class="detail-value">
+                                <code style="background:#f4f6fb;padding:3px 8px;border-radius:6px;font-size:.82rem;color:var(--accent);">
+                                    @Html.DisplayFor(m => m.Username)
+                                </code>
+                            </td>
+                        </tr>
+                        <tr class="detail-row" style="border-bottom:none;">
+                            <td class="detail-label"><i class="bi bi-toggle-on me-2 text-accent"></i>Statut</td>
+                            <td class="detail-value">
+                                @if (Model.Active)
+                                {
+                                    <span class="badge-status active"><i class="bi bi-check-circle-fill"></i> Actif</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status expired"><i class="bi bi-x-circle-fill"></i> Inactif</span>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-flex gap-3 justify-content-end">
+                <a asp-action="List" class="btn btn-secondary">
+                    <i class="bi bi-x-lg"></i> Annuler
+                </a>
+                <button type="submit" class="btn"
+                        style="background:var(--danger);border:none;color:#fff;box-shadow:0 4px 14px rgba(239,68,68,.35);border-radius:9px;padding:.5rem 1.1rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;">
+                    <i class="bi bi-trash-fill"></i> Confirmer la suppression
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<style>
+.detail-row td { padding: 13px 22px; border-bottom: 1px solid #f1f3f7; font-size:.875rem; }
+.detail-label  { width: 200px; color: var(--text-secondary); font-weight: 600; background: #fafbfc; }
+.detail-value  { color: var(--text-primary); font-weight: 500; }
+</style>

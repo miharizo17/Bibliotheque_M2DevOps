@@ -1,0 +1,229 @@
+@model LibraryBackOffice.Models.ImportCsvViewModel
+
+@{
+    ViewData["Title"] = "Import CSV — Livres";
+}
+
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-file-earmark-arrow-up me-2 text-accent"></i>Import CSV</h1>
+        <p class="page-subtitle">Importer des livres en masse via fichier CSV</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour à la liste
+    </a>
+</div>
+
+<!-- ══ FORMAT ATTENDU ══ -->
+<div class="admin-panel mb-4">
+    <div class="admin-panel-header">
+        <div class="admin-panel-title">
+            <i class="bi bi-info-circle"></i> Format du fichier CSV
+        </div>
+    </div>
+    <div class="admin-panel-body">
+        <p class="text-muted-sm mb-2">Colonnes attendues dans cet ordre :</p>
+        <div class="d-flex flex-wrap gap-2">
+            @foreach (var col in new[]{"Titre","SousTitre","Saison","Auteur","DateEdition","Description","Image","Document","TypeLivre"})
+            {
+                <code style="background:#f4f6fb;padding:3px 10px;border-radius:6px;font-size:.8rem;color:var(--accent);border:1px solid rgba(102,126,234,.2);">@col</code>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- ══ UPLOAD ══ -->
+<div class="admin-panel mb-4">
+    <div class="admin-panel-header">
+        <div class="admin-panel-title">
+            <i class="bi bi-upload"></i> Sélection du fichier
+        </div>
+    </div>
+    <div class="admin-panel-body">
+        <form asp-action="ImportCsvDryRun" method="post" enctype="multipart/form-data" id="importForm">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-7">
+                    <label class="form-label">
+                        <i class="bi bi-file-earmark-csv me-1 text-accent"></i>Fichier CSV
+                    </label>
+                    <input type="file" name="csvFile" id="csvFile"
+                           class="form-control" accept=".csv" required />
+                </div>
+                <div class="col-md-auto d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-eye"></i> Valider (simulation)
+                    </button>
+                    @if (Model.HasResult && Model.Result?.ValidRows > 0)
+                    {
+                        <button type="button" onclick="confirmImport()" class="btn btn-success">
+                            <i class="bi bi-check2-circle"></i> Confirmer l'import
+                        </button>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ══ MESSAGES ══ -->
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="admin-panel mb-3" style="border:1px solid rgba(16,185,129,.3);">
+        <div class="admin-panel-body" style="color:var(--success);">
+            <i class="bi bi-check-circle-fill me-2"></i>@Model.SuccessMessage
+        </div>
+    </div>
+}
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="admin-panel mb-3" style="border:1px solid rgba(239,68,68,.3);">
+        <div class="admin-panel-body" style="color:var(--danger);">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>@Model.ErrorMessage
+        </div>
+    </div>
+}
+
+<!-- ══ RAPPORT ══ -->
+@if (Model.HasResult && Model.Result != null)
+{
+    <div class="admin-panel">
+        <div class="admin-panel-header">
+            <div class="admin-panel-title">
+                <i class="bi bi-clipboard-data"></i> Rapport d'import
+            </div>
+            <span class="badge-status @(Model.Result.IsDryRun ? "pending" : "active")">
+                @(Model.Result.IsDryRun ? "Simulation" : "Importé")
+            </span>
+        </div>
+        <div class="admin-panel-body">
+
+            <!-- Stats -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class="bi bi-table"></i></div>
+                        <div>
+                            <div class="stat-value">@Model.Result.TotalRows</div>
+                            <div class="stat-label">Total lignes</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="bi bi-check-circle"></i></div>
+                        <div>
+                            <div class="stat-value" style="color:var(--success);">@Model.Result.ValidRows</div>
+                            <div class="stat-label">Valides</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon red"><i class="bi bi-x-circle"></i></div>
+                        <div>
+                            <div class="stat-value" style="color:var(--danger);">@Model.Result.ErrorRows</div>
+                            <div class="stat-label">Erreurs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="bi bi-database-add"></i></div>
+                        <div>
+                            <div class="stat-value" style="color:var(--success);">@Model.Result.InsertedRows</div>
+                            <div class="stat-label">Insérés</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table détail -->
+            @if (Model.Result.Items.Any())
+            {
+                <div class="table-responsive">
+                    <table class="admin-table w-100">
+                        <thead>
+                            <tr>
+                                <th style="width:40px;">#</th>
+                                <th>Titre</th>
+                                <th>Auteur</th>
+                                <th>Type</th>
+                                <th>Statut</th>
+                                <th>Messages</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Result.Items.Count; i++)
+                            {
+                                var item = Model.Result.Items[i];
+                                <tr>
+                                    <td class="text-muted-sm">@(i + 1)</td>
+                                    <td style="font-weight:600;">@item.Titre</td>
+                                    <td>@item.Auteur</td>
+                                    <td><span class="badge-status pending">@item.TypeLivreNom</span></td>
+                                    <td>
+                                        @if (item.IsValid)
+                                        {
+                                            <span class="badge-status active"><i class="bi bi-check-circle-fill"></i> Valide</span>
+                                        }
+                                        else if (item.IsDuplicateInFile || item.IsDuplicateInDatabase)
+                                        {
+                                            <span class="badge-status pending"><i class="bi bi-copy"></i> Doublon</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge-status expired"><i class="bi bi-x-circle-fill"></i> Erreur</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Errors.Any() || item.IsDuplicateInDatabase)
+                                        {
+                                            <ul class="list-unstyled mb-0">
+                                                @foreach (var error in item.Errors)
+                                                {
+                                                    <li class="text-muted-sm" style="color:var(--danger)!important;">
+                                                        <i class="bi bi-dot"></i>@error
+                                                    </li>
+                                                }
+                                                @if (item.IsDuplicateInDatabase)
+                                                {
+                                                    <li class="text-muted-sm" style="color:var(--warning)!important;">
+                                                        <i class="bi bi-dot"></i>Déjà existant en base
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        else if (item.IsValid)
+                                        {
+                                            <span class="text-muted-sm" style="color:var(--success)!important;">
+                                                <i class="bi bi-check2"></i> OK
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+}
+
+@section Scripts {
+<script>
+function confirmImport() {
+    if (confirm('Importer les lignes valides ? Cette action est irréversible.')) {
+        const form  = document.getElementById('importForm');
+        const input = document.createElement('input');
+        input.type  = 'hidden';
+        input.name  = 'csvFile';
+        input.value = document.getElementById('csvFile').files[0]?.name ?? '';
+        form.appendChild(input);
+        form.action = '@Url.Action("ImportCsvConfirm")';
+        form.submit();
+    }
+}
+</script>
+}

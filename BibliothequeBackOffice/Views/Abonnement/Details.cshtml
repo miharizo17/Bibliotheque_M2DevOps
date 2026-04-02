@@ -1,0 +1,123 @@
+@model LibraryBackOffice.Models.HistoriqueAbonnement
+
+@{
+    ViewData["Title"] = "Détails de l'abonnement";
+    bool estExpire = Model.Date_Expiration < DateTime.Today;
+}
+
+<!-- ══ EN-TÊTE ══ -->
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-eye me-2 text-accent"></i>Détails de l'abonnement</h1>
+        <p class="page-subtitle">Abonnement #@Model.Id</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> Modifier
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+
+        <!-- Statut banner -->
+        <div class="mb-4 p-3 rounded-3 d-flex align-items-center gap-3"
+             style="background: @(estExpire ? "rgba(239,68,68,0.08)" : "rgba(16,185,129,0.08)"); border: 1px solid @(estExpire ? "rgba(239,68,68,0.2)" : "rgba(16,185,129,0.2)");">
+            <i class="bi @(estExpire ? "bi-x-circle-fill" : "bi-check-circle-fill")"
+               style="font-size:1.5rem; color: @(estExpire ? "var(--danger)" : "var(--success)");"></i>
+            <div>
+                <div class="fw-600" style="color: @(estExpire ? "var(--danger)" : "var(--success)");">
+                    Abonnement @(estExpire ? "expiré" : "actif")
+                </div>
+                <div class="text-muted-sm">
+                    @if (estExpire)
+                    {
+                        <span>Expiré le @Model.Date_Expiration!.Value.ToString("dd MMMM yyyy")</span>
+                    }
+                    else
+                    {
+                        <span>Valide jusqu'au @Model.Date_Expiration!.Value.ToString("dd MMMM yyyy")</span>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Fiche détail -->
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div class="admin-panel-title">
+                    <i class="bi bi-credit-card-2-front"></i>
+                    Informations complètes
+                </div>
+            </div>
+            <div class="admin-panel-body p-0">
+
+                <table class="w-100" style="border-collapse:collapse;">
+                    <tbody>
+                        <tr class="detail-row">
+                            <td class="detail-label">
+                                <i class="bi bi-hash me-2 text-accent"></i>Identifiant
+                            </td>
+                            <td class="detail-value">#@Model.Id</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label">
+                                <i class="bi bi-calendar-check me-2 text-accent"></i>Date de paiement
+                            </td>
+                            <td class="detail-value">@Html.DisplayFor(m => m.Date_Paiement)</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label">
+                                <i class="bi bi-calendar-x me-2 text-accent"></i>Date d'expiration
+                            </td>
+                            <td class="detail-value">@Html.DisplayFor(m => m.Date_Expiration)</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label">
+                                <i class="bi bi-tag me-2 text-accent"></i>Type d'abonnement
+                            </td>
+                            <td class="detail-value">@Html.DisplayFor(m => m.Id_TypeAbonnement)</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label">
+                                <i class="bi bi-wallet2 me-2 text-accent"></i>Mode de paiement
+                            </td>
+                            <td class="detail-value">@Html.DisplayFor(m => m.Id_ModePaiement)</td>
+                        </tr>
+                        <tr class="detail-row" style="border-bottom:none;">
+                            <td class="detail-label">
+                                <i class="bi bi-person me-2 text-accent"></i>Utilisateur
+                            </td>
+                            <td class="detail-value">@Html.DisplayFor(m => m.Id_Utilisateur)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.detail-row td {
+    padding: 14px 22px;
+    border-bottom: 1px solid #f1f3f7;
+    font-size: .875rem;
+}
+.detail-label {
+    width: 220px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    background: #fafbfc;
+}
+.detail-value {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+.fw-600 { font-weight: 600; }
+</style>

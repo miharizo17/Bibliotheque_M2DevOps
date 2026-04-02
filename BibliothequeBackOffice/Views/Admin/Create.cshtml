@@ -1,0 +1,112 @@
+@model LibraryBackOffice.Models.Admin
+
+@{
+    ViewData["Title"] = "Nouvel administrateur";
+}
+
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-person-plus me-2 text-accent"></i>Nouvel administrateur</h1>
+        <p class="page-subtitle">Créer un nouveau compte d'accès au back-office</p>
+    </div>
+    <a asp-action="List" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour à la liste
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div class="admin-panel-title">
+                    <i class="bi bi-shield-lock"></i> Informations du compte
+                </div>
+            </div>
+            <div class="admin-panel-body">
+
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-4" role="alert"></div>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label asp-for="Prenom" class="form-label">
+                                <i class="bi bi-person me-1 text-accent"></i>Prénom
+                            </label>
+                            <input asp-for="Prenom" class="form-control" placeholder="Prénom" />
+                            <span asp-validation-for="Prenom" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Nom" class="form-label">
+                                <i class="bi bi-person me-1 text-accent"></i>Nom
+                            </label>
+                            <input asp-for="Nom" class="form-control" placeholder="Nom de famille" />
+                            <span asp-validation-for="Nom" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Username" class="form-label">
+                                <i class="bi bi-at me-1 text-accent"></i>Nom d'utilisateur
+                            </label>
+                            <input asp-for="Username" class="form-control" placeholder="Identifiant de connexion" autocomplete="username" />
+                            <span asp-validation-for="Username" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Password" class="form-label">
+                                <i class="bi bi-lock me-1 text-accent"></i>Mot de passe
+                            </label>
+                            <div style="position:relative;">
+                                <input asp-for="Password" type="password" id="newPwd" class="form-control"
+                                       placeholder="••••••••" style="padding-right:44px;" autocomplete="new-password" />
+                                <button type="button" onclick="toggleNewPwd()" tabindex="-1"
+                                        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.95rem;padding:0;">
+                                    <i class="bi bi-eye" id="newPwdIcon"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-flex align-items-center gap-3 p-3 rounded-3" style="background:#f8f9fc;border:1.5px solid #e5e7eb;">
+                                <input class="form-check-input m-0" asp-for="Active" style="width:18px;height:18px;cursor:pointer;" />
+                                <div>
+                                    <label asp-for="Active" class="form-label mb-0" style="cursor:pointer;">
+                                        Compte actif
+                                    </label>
+                                    <p class="text-muted-sm mb-0">Autoriser la connexion à ce compte</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a asp-action="List" class="btn btn-secondary">
+                            <i class="bi bi-x-lg"></i> Annuler
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg"></i> Créer le compte
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+<script>
+function toggleNewPwd() {
+    const inp = document.getElementById('newPwd');
+    const ico = document.getElementById('newPwdIcon');
+    if (inp.type === 'password') { inp.type = 'text'; ico.className = 'bi bi-eye-slash'; }
+    else { inp.type = 'password'; ico.className = 'bi bi-eye'; }
+}
+</script>
+}

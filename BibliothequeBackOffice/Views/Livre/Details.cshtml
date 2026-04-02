@@ -1,0 +1,149 @@
+@model LibraryBackOffice.Models.Livre
+
+@{
+    ViewData["Title"] = "Détails du livre";
+    string typeLivreText = "";
+    var typeLivreList = ViewBag.TypeLivreList as SelectList;
+    if (typeLivreList != null)
+    {
+        var found = typeLivreList.FirstOrDefault(x => x.Value == Model.Id_TypeLivre.ToString());
+        if (found != null) typeLivreText = found.Text;
+    }
+}
+
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-eye me-2 text-accent"></i>Détails du livre</h1>
+        <p class="page-subtitle">#@Model.Id — @Model.Titre</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> Modifier
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-secondary"
+           style="color:var(--danger);">
+            <i class="bi bi-trash"></i> Retirer
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
+</div>
+
+<div class="row g-4 align-items-start">
+
+    <!-- ── Couverture ── -->
+    <div class="col-lg-3 col-md-4">
+        <div class="admin-panel text-center">
+            <div class="admin-panel-body">
+                <img src="@Url.Content(Model.Image)"
+                     alt="@Model.Titre"
+                     onerror="this.src='/images/book-placeholder.png'"
+                     style="width:100%;max-width:180px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);margin-bottom:16px;" />
+
+                @if (!string.IsNullOrEmpty(typeLivreText))
+                {
+                    <div class="mb-2">
+                        <span class="badge-status pending">
+                            <i class="bi bi-tag-fill"></i> @typeLivreText
+                        </span>
+                    </div>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.Document))
+                {
+                    <a href="@Model.Document" target="_blank" class="btn btn-primary w-100 mt-2" style="font-size:.8rem;">
+                        <i class="bi bi-file-earmark-pdf"></i> Lire le PDF
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Informations ── -->
+    <div class="col-lg-9 col-md-8">
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div class="admin-panel-title">
+                    <i class="bi bi-book"></i> Informations complètes
+                </div>
+            </div>
+            <div class="admin-panel-body p-0">
+                <table class="w-100" style="border-collapse:collapse;">
+                    <tbody>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-hash me-2 text-accent"></i>ID</td>
+                            <td class="detail-value">#@Model.Id</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-card-heading me-2 text-accent"></i>Titre</td>
+                            <td class="detail-value" style="font-weight:700;font-size:.95rem;">@Model.Titre</td>
+                        </tr>
+                        @if (!string.IsNullOrEmpty(Model.Sous_Titre))
+                        {
+                            <tr class="detail-row">
+                                <td class="detail-label"><i class="bi bi-card-text me-2 text-accent"></i>Sous-titre</td>
+                                <td class="detail-value">@Model.Sous_Titre</td>
+                            </tr>
+                        }
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-person me-2 text-accent"></i>Auteur</td>
+                            <td class="detail-value">@Model.Auteur</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-tag me-2 text-accent"></i>Type</td>
+                            <td class="detail-value">@typeLivreText</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-calendar3 me-2 text-accent"></i>Saison</td>
+                            <td class="detail-value">@(string.IsNullOrEmpty(Model.Saison) ? "—" : Model.Saison)</td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-calendar-event me-2 text-accent"></i>Date d'édition</td>
+                            <td class="detail-value">
+                                @(Model.Date_Edition.HasValue ? Model.Date_Edition!.Value.ToString("dd/MM/yyyy") : "—")
+                            </td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-text-paragraph me-2 text-accent"></i>Description</td>
+                            <td class="detail-value" style="white-space:pre-wrap;line-height:1.6;">
+                                @(string.IsNullOrEmpty(Model.Description) ? "—" : Model.Description)
+                            </td>
+                        </tr>
+                        <tr class="detail-row">
+                            <td class="detail-label"><i class="bi bi-image me-2 text-accent"></i>Couverture</td>
+                            <td class="detail-value">
+                                @if (!string.IsNullOrEmpty(Model.Image))
+                                {
+                                    <a href="@Model.Image" target="_blank" class="text-accent text-muted-sm">
+                                        <i class="bi bi-box-arrow-up-right me-1"></i>@Model.Image
+                                    </a>
+                                }
+                                else { <span>—</span> }
+                            </td>
+                        </tr>
+                        <tr class="detail-row" style="border-bottom:none;">
+                            <td class="detail-label"><i class="bi bi-file-earmark-pdf me-2 text-accent"></i>Document PDF</td>
+                            <td class="detail-value">
+                                @if (!string.IsNullOrEmpty(Model.Document))
+                                {
+                                    <a href="@Model.Document" target="_blank" class="text-accent text-muted-sm">
+                                        <i class="bi bi-box-arrow-up-right me-1"></i>@Model.Document
+                                    </a>
+                                }
+                                else { <span>—</span> }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.detail-row td { padding: 13px 22px; border-bottom: 1px solid #f1f3f7; font-size:.875rem; }
+.detail-label  { width: 200px; color: var(--text-secondary); font-weight: 600; background: #fafbfc; white-space: nowrap; }
+.detail-value  { color: var(--text-primary); font-weight: 500; }
+</style>

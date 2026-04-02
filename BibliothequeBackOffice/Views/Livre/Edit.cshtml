@@ -1,0 +1,183 @@
+@model LibraryBackOffice.Models.Livre
+
+@{
+    ViewData["Title"] = "Modifier le livre";
+    string typeLivreText = "";
+    var typeLivreList = ViewBag.TypeLivreList as SelectList;
+    if (typeLivreList != null)
+    {
+        var found = typeLivreList.FirstOrDefault(x => x.Value == Model.Id_TypeLivre.ToString());
+        if (found != null) typeLivreText = found.Text;
+    }
+}
+
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-pencil-square me-2 text-accent"></i>Modifier le livre</h1>
+        <p class="page-subtitle">@Model.Titre@(string.IsNullOrEmpty(Model.Sous_Titre) ? "" : " — " + Model.Sous_Titre)</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">
+            <i class="bi bi-eye"></i> Détails
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
+</div>
+
+<div class="row g-4 align-items-start">
+
+    <!-- ── Aperçu couverture ── -->
+    <div class="col-lg-3 col-md-4">
+        <div class="admin-panel text-center">
+            <div class="admin-panel-body">
+                <img id="coverPreview"
+                     src="@Url.Content(Model.Image)"
+                     alt="Couverture"
+                     onerror="this.src='/images/book-placeholder.png'"
+                     style="width:100%;max-width:180px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);margin-bottom:12px;" />
+                <p class="book-title text-center" style="font-size:.85rem;">@Model.Titre</p>
+                <p class="text-muted-sm">par @Model.Auteur</p>
+                @if (!string.IsNullOrEmpty(typeLivreText))
+                {
+                    <span class="badge-status pending">@typeLivreText</span>
+                }
+                @if (Model.Date_Edition.HasValue)
+                {
+                    <p class="text-muted-sm mt-2">
+                        <i class="bi bi-calendar3 me-1"></i>
+                        @Model.Date_Edition!.Value.ToString("dd/MM/yyyy")
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Formulaire ── -->
+    <div class="col-lg-9 col-md-8">
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div class="admin-panel-title">
+                    <i class="bi bi-book"></i> Modifier les informations
+                </div>
+                <span class="text-muted-sm">#@Model.Id</span>
+            </div>
+            <div class="admin-panel-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-4" role="alert"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <p class="section-label">Identification</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="Id_TypeLivre" class="form-label">
+                                <i class="bi bi-tag me-1 text-accent"></i>Type de livre
+                            </label>
+                            @Html.DropDownListFor(m => m.Id_TypeLivre,
+                                (SelectList)ViewBag.TypeLivreList,
+                                "— Sélectionner un type —",
+                                new { @class = "form-select" })
+                            <span asp-validation-for="Id_TypeLivre" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Saison" class="form-label">
+                                <i class="bi bi-calendar3 me-1 text-accent"></i>Saison
+                            </label>
+                            <input asp-for="Saison" class="form-control" />
+                            <span asp-validation-for="Saison" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <p class="section-label">Titre & auteur</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label asp-for="Titre" class="form-label">
+                                <i class="bi bi-card-heading me-1 text-accent"></i>Titre
+                            </label>
+                            <input asp-for="Titre" class="form-control" />
+                            <span asp-validation-for="Titre" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Date_Edition" class="form-label">
+                                <i class="bi bi-calendar-event me-1 text-accent"></i>Date d'édition
+                            </label>
+                            <input asp-for="Date_Edition" class="form-control" type="date" />
+                            <span asp-validation-for="Date_Edition" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-8">
+                            <label asp-for="Sous_Titre" class="form-label">
+                                <i class="bi bi-card-text me-1 text-accent"></i>Sous-titre
+                            </label>
+                            <input asp-for="Sous_Titre" class="form-control" />
+                            <span asp-validation-for="Sous_Titre" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Auteur" class="form-label">
+                                <i class="bi bi-person me-1 text-accent"></i>Auteur
+                            </label>
+                            <input asp-for="Auteur" class="form-control" />
+                            <span asp-validation-for="Auteur" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <p class="section-label">Contenu & médias</p>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label">
+                                <i class="bi bi-text-paragraph me-1 text-accent"></i>Description
+                            </label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Image" class="form-label">
+                                <i class="bi bi-image me-1 text-accent"></i>Couverture (URL)
+                            </label>
+                            <input asp-for="Image" class="form-control" id="imageInput"
+                                   oninput="updatePreview(this.value)" />
+                            <span asp-validation-for="Image" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Document" class="form-label">
+                                <i class="bi bi-file-earmark-pdf me-1 text-accent"></i>Document PDF (URL)
+                            </label>
+                            <input asp-for="Document" class="form-control" />
+                            <span asp-validation-for="Document" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-lg"></i> Annuler
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg"></i> Sauvegarder
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.section-label {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-muted);
+    border-bottom: 1px solid #f1f3f7; padding-bottom: 6px; margin-bottom: 12px;
+}
+</style>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+<script>
+function updatePreview(url) {
+    const img = document.getElementById('coverPreview');
+    if (url) { img.src = url; }
+}
+</script>
+}

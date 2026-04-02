@@ -1,0 +1,317 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\LibraryBackOffice.bundle.scp.css",
+      "PackagePath": "staticwebassets\\LibraryBackOffice.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\css\\admin.css",
+      "PackagePath": "staticwebassets\\css\\admin.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\css\\style.css",
+      "PackagePath": "staticwebassets\\css\\style.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\css\\styleAbonnement.css",
+      "PackagePath": "staticwebassets\\css\\styleAbonnement.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\css\\styleKanto.css",
+      "PackagePath": "staticwebassets\\css\\styleKanto.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\css\\styleLivre.css",
+      "PackagePath": "staticwebassets\\css\\styleLivre.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\images\\Commonsense_Direct_n_Digital_Marketing.png",
+      "PackagePath": "staticwebassets\\images\\Commonsense_Direct_n_Digital_Marketing.png"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\images\\GrammatikAktivA1-B1.png",
+      "PackagePath": "staticwebassets\\images\\GrammatikAktivA1-B1.png"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\images\\IMOILOUNECE_Code_of_Practice_for_Packing_of_Cargo_Transport_Units_International_Labour_Office.png",
+      "PackagePath": "staticwebassets\\images\\IMOILOUNECE_Code_of_Practice_for_Packing_of_Cargo_Transport_Units_International_Labour_Office.png"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\images\\Modern_Management_and_Leadership.png",
+      "PackagePath": "staticwebassets\\images\\Modern_Management_and_Leadership.png"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\pdf\\Commonsense_Direct_n_Digital_Marketing-Drayton_Bird.pdf",
+      "PackagePath": "staticwebassets\\pdf\\Commonsense_Direct_n_Digital_Marketing-Drayton_Bird.pdf"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\pdf\\GrammatikAktivA1-B1.pdf",
+      "PackagePath": "staticwebassets\\pdf\\GrammatikAktivA1-B1.pdf"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\pdf\\IMOILOUNECE_Code_of_Practice_for_Packing_of_Cargo_Transport_Units-International_Labour_Office.pdf",
+      "PackagePath": "staticwebassets\\pdf\\IMOILOUNECE_Code_of_Practice_for_Packing_of_Cargo_Transport_Units-International_Labour_Office.pdf"
+    },
+    {
+      "Id": "D:\\ITU\\MBDS\\DOTNET\\Bibliotheque_M2DevOps\\BibliothequeBackOffice\\wwwroot\\pdf\\Modern_Management_and_Leadership-Jon_Bright.pdf",
+      "PackagePath": "staticwebassets\\pdf\\Modern_Management_and_Leadership-Jon_Bright.pdf"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LibraryBackOffice.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.LibraryBackOffice.props",
+      "PackagePath": "build\\LibraryBackOffice.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.LibraryBackOffice.props",
+      "PackagePath": "buildMultiTargeting\\LibraryBackOffice.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.LibraryBackOffice.props",
+      "PackagePath": "buildTransitive\\LibraryBackOffice.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

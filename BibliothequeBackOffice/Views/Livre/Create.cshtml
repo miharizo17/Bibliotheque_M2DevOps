@@ -1,0 +1,136 @@
+@model LibraryBackOffice.Models.Livre
+
+@{
+    ViewData["Title"] = "Nouveau livre";
+}
+
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-plus-circle me-2 text-accent"></i>Ajouter un livre</h1>
+        <p class="page-subtitle">Enregistrer un nouveau livre dans la bibliothèque</p>
+    </div>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour à la liste
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-9 col-md-11">
+        <div class="admin-panel">
+            <div class="admin-panel-header">
+                <div class="admin-panel-title">
+                    <i class="bi bi-book"></i> Informations du livre
+                </div>
+            </div>
+            <div class="admin-panel-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-4" role="alert"></div>
+
+                    <!-- Section : Identification -->
+                    <p class="section-label">Identification</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="Id_TypeLivre" class="form-label">
+                                <i class="bi bi-tag me-1 text-accent"></i>Type de livre
+                            </label>
+                            <select asp-for="Id_TypeLivre" class="form-select" asp-items="ViewBag.TypeLivreList">
+                                <option value="">— Sélectionner un type —</option>
+                            </select>
+                            <span asp-validation-for="Id_TypeLivre" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Saison" class="form-label">
+                                <i class="bi bi-calendar3 me-1 text-accent"></i>Saison
+                            </label>
+                            <input asp-for="Saison" class="form-control" placeholder="ex. Printemps 2024" />
+                            <span asp-validation-for="Saison" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Section : Titre & auteur -->
+                    <p class="section-label">Titre & auteur</p>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <label asp-for="Titre" class="form-label">
+                                <i class="bi bi-card-heading me-1 text-accent"></i>Titre <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="Titre" class="form-control" placeholder="Titre principal du livre" />
+                            <span asp-validation-for="Titre" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Date_Edition" class="form-label">
+                                <i class="bi bi-calendar-event me-1 text-accent"></i>Date d'édition
+                            </label>
+                            <input asp-for="Date_Edition" class="form-control" type="date" />
+                            <span asp-validation-for="Date_Edition" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-8">
+                            <label asp-for="Sous_Titre" class="form-label">
+                                <i class="bi bi-card-text me-1 text-accent"></i>Sous-titre
+                            </label>
+                            <input asp-for="Sous_Titre" class="form-control" placeholder="Sous-titre (optionnel)" />
+                            <span asp-validation-for="Sous_Titre" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Auteur" class="form-label">
+                                <i class="bi bi-person me-1 text-accent"></i>Auteur
+                            </label>
+                            <input asp-for="Auteur" class="form-control" placeholder="Nom de l'auteur" />
+                            <span asp-validation-for="Auteur" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- Section : Contenu & médias -->
+                    <p class="section-label">Contenu & médias</p>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label">
+                                <i class="bi bi-text-paragraph me-1 text-accent"></i>Description
+                            </label>
+                            <textarea asp-for="Description" class="form-control" rows="3"
+                                      placeholder="Résumé ou description du livre…"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Image" class="form-label">
+                                <i class="bi bi-image me-1 text-accent"></i>Couverture (URL)
+                            </label>
+                            <input asp-for="Image" class="form-control" placeholder="https://…/couverture.jpg" />
+                            <span asp-validation-for="Image" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Document" class="form-label">
+                                <i class="bi bi-file-earmark-pdf me-1 text-accent"></i>Document PDF (URL)
+                            </label>
+                            <input asp-for="Document" class="form-control" placeholder="https://…/document.pdf" />
+                            <span asp-validation-for="Document" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-lg"></i> Annuler
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-lg"></i> Ajouter le livre
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.section-label {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-muted);
+    border-bottom: 1px solid #f1f3f7; padding-bottom: 6px; margin-bottom: 12px;
+}
+</style>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

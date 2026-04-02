@@ -1,0 +1,212 @@
+@using LibraryBackOffice.Models
+@using System.Configuration
+@model PageResults<HistoriqueAbonnement>
+
+@{
+    ViewData["Title"] = "Abonnements";
+    var moisQuery  = Context.Request.Query["mois"].ToString();
+    var anneeQuery = Context.Request.Query["annee"].ToString();
+    bool filtreActif = !string.IsNullOrEmpty(moisQuery) && !string.IsNullOrEmpty(anneeQuery);
+}
+
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-credit-card-2-front me-2 text-accent"></i>Historique des abonnements</h1>
+        <p class="page-subtitle">
+            @Model.TotalItems abonnement(s) ·
+            @if (filtreActif)
+            {
+                <span>Filtre : mois <strong>@moisQuery</strong> / <strong>@anneeQuery</strong></span>
+            }
+            else
+            {
+                <span>Toutes les périodes</span>
+            }
+        </p>
+    </div>
+    @if (filtreActif)
+    {
+        <a class="btn btn-primary"
+           asp-action="ExportPdf"
+           asp-route-mois="@moisQuery"
+           asp-route-annee="@anneeQuery">
+            <i class="bi bi-file-earmark-pdf"></i>
+            Exporter PDF
+        </a>
+    }
+</div>
+
+<div class="admin-panel mb-4">
+    <div class="admin-panel-header">
+        <div class="admin-panel-title">
+            <i class="bi bi-funnel"></i> Filtrer par période
+        </div>
+    </div>
+    <div class="admin-panel-body">
+        <form method="get">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Mois</label>
+                    <select name="mois" class="form-select">
+                        <option value="">— Tous les mois —</option>
+                        @{
+                            var moisNoms = new[]{"Janvier","Février","Mars","Avril","Mai","Juin",
+                                                 "Juillet","Août","Septembre","Octobre","Novembre","Décembre"};
+                        }
+                        @for (int m = 1; m <= 12; m++)
+                        {
+                            var isSelected = moisQuery == m.ToString();
+                            <option value="@m" selected="@isSelected">
+                                @moisNoms[m - 1]
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Année</label>
+                    <input type="number"
+                           class="form-control"
+                           name="annee"
+                           value="@anneeQuery"
+                           placeholder="ex. 2025"
+                           min="2000" max="2099">
+                </div>
+                <div class="col-md-auto">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Filtrer
+                    </button>
+                    @if (filtreActif)
+                    {
+                        <a asp-action="Index" class="btn btn-secondary ms-2">
+                            <i class="bi bi-x-lg"></i> Réinitialiser
+                        </a>
+                    }
+                </div>
+            </div>
+        </form>
+        @if (!filtreActif)
+        {
+            <p class="text-muted-sm mt-3 mb-0">
+                <i class="bi bi-info-circle me-1"></i>
+                Sélectionnez un mois et une année pour activer l'export PDF.
+            </p>
+        }
+    </div>
+</div>
+
+<div class="admin-panel">
+    <div class="admin-panel-header">
+        <div class="admin-panel-title">
+            <i class="bi bi-table"></i> Liste des abonnements
+        </div>
+        <span class="text-muted-sm">@Model.Items.Count() entrée(s) sur cette page</span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="admin-table w-100">
+            <thead>
+                <tr>
+                    <th><i class="bi bi-calendar-check me-1"></i>Date de paiement</th>
+                    <th><i class="bi bi-calendar-x me-1"></i>Expiration</th>
+                    <th><i class="bi bi-tag me-1"></i>Type</th>
+                    <th><i class="bi bi-wallet2 me-1"></i>Mode de paiement</th>
+                    <th><i class="bi bi-person me-1"></i>Client</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Items.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="bi bi-inbox" style="font-size:2rem; color:var(--text-muted);"></i>
+                            <p class="text-muted-sm mt-2">Aucun abonnement trouvé.</p>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model.Items)
+                    {
+                        bool estExpire = item.Date_Expiration < DateTime.Today;
+                        <tr>
+                            <td>
+                                <span class="fw-500">@item.Date_Paiement!.Value.ToString("dd/MM/yyyy")</span>
+                            </td>
+                            <td>@item.Date_Expiration!.Value.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <span class="badge-status pending">
+                                    @Html.DisplayFor(m => item.TypeAbonnement!.Type_Abonnement)
+                                </span>
+                            </td>
+                            <td>@Html.DisplayFor(m => item.ModePaiement!.Mode)</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent-start),var(--accent-end));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:700;flex-shrink:0;">
+                                        @item.Utilisateur!.Nom.Substring(0,1).ToUpper()
+                                    </div>
+                                    <span>@item.Utilisateur!.Nom @item.Utilisateur.Prenom</span>
+                                </div>
+                            </td>
+                            <td>
+                                @if (estExpire)
+                                {
+                                    <span class="badge-status expired">
+                                        <i class="bi bi-x-circle-fill"></i> Expiré
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status active">
+                                        <i class="bi bi-check-circle-fill"></i> Actif
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <div class="admin-pagination">
+            <span class="pagination-info">
+                Page @Model.Page sur @Model.TotalPages
+            </span>
+            <nav>
+                <ul class="pagination mb-0">
+                    <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-page="@(Model.Page - 1)"
+                           asp-route-pageSize="@Model.PageSize"
+                           asp-route-mois="@moisQuery"
+                           asp-route-annee="@anneeQuery">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
+                    {
+                        <li class="page-item @(i == Model.Page ? "active" : "")">
+                            <a class="page-link" asp-action="Index"
+                               asp-route-page="@i"
+                               asp-route-pageSize="@Model.PageSize"
+                               asp-route-mois="@moisQuery"
+                               asp-route-annee="@anneeQuery">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.Page == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-page="@(Model.Page + 1)"
+                           asp-route-pageSize="@Model.PageSize"
+                           asp-route-mois="@moisQuery"
+                           asp-route-annee="@anneeQuery">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+</div>

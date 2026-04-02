@@ -1,0 +1,235 @@
+@using LibraryBackOffice.Models
+@model PageResults<Livre>
+
+@{
+    ViewData["Title"] = "Livres";
+    var searchQuery = Context.Request.Query["search"].ToString();
+    var searchActif = !string.IsNullOrEmpty(searchQuery);
+}
+
+<!-- ══ EN-TÊTE ══ -->
+<div class="page-header">
+    <div>
+        <h1><i class="bi bi-book me-2 text-accent"></i>Catalogue des livres</h1>
+        <p class="page-subtitle">@Model.TotalItems livre(s) au total · Page @Model.Page sur @Model.TotalPages</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+        <a asp-action="ImportCsv" class="btn btn-secondary">
+            <i class="bi bi-file-earmark-arrow-up"></i> Importer CSV
+        </a>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Ajouter un livre
+        </a>
+    </div>
+</div>
+
+<!-- ══ RECHERCHE ══ -->
+<div class="admin-panel mb-4">
+    <div class="admin-panel-header">
+        <div class="admin-panel-title"><i class="bi bi-search"></i> Rechercher un livre</div>
+    </div>
+    <div class="admin-panel-body">
+        <form method="get">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-6">
+                    <label class="form-label">Titre ou auteur</label>
+                    <input type="text" class="form-control" name="search"
+                           value="@searchQuery" placeholder="ex. Le Petit Prince…">
+                </div>
+                <div class="col-md-auto d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Rechercher
+                    </button>
+                    @if (searchActif)
+                    {
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-x-lg"></i> Réinitialiser
+                        </a>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ══ GRILLE LIVRES ══ -->
+<div class="admin-panel">
+    <div class="admin-panel-header">
+        <div class="admin-panel-title">
+            <i class="bi bi-grid-3x3-gap"></i>
+            @if (searchActif)
+            {
+                <span>Résultats pour « @searchQuery »</span>
+            }
+            else
+            {
+                <span>Tous les livres</span>
+            }
+        </div>
+        <div class="input-group lv-search-wrap">
+            <span class="input-group-text bg-white border-end-0">
+                <i class="bi bi-search text-muted" style="font-size:.8rem;"></i>
+            </span>
+            <input type="text" id="searchInput" class="form-control border-start-0"
+                   placeholder="Filtrer cette page…" style="border-left:none;font-size:.85rem;">
+        </div>
+    </div>
+
+    <div class="admin-panel-body">
+        @if (!Model.Items.Any())
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-book-x" style="font-size:3rem;color:var(--text-muted);"></i>
+                <p class="text-muted-sm mt-3">Aucun livre trouvé.</p>
+                <a asp-action="Create" class="btn btn-primary mt-2">
+                    <i class="bi bi-plus-lg"></i> Ajouter le premier livre
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4" id="bookGrid">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="col-xl-3 col-lg-4 col-md-6 book-grid-item">
+                        <div class="book-card h-100">
+                            <div class="book-card-img-wrap">
+                                <img src="@Url.Content(item.Image)" alt="@item.Titre"
+                                     onerror="this.src='/images/book-placeholder.png'" />
+                                <div class="book-card-overlay">
+                                    <a class="btn btn-icon btn-primary"
+                                       asp-action="Edit" asp-route-id="@item.Id" title="Modifier">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-icon" asp-action="Details" asp-route-id="@item.Id"
+                                       title="Détails" style="background:rgba(255,255,255,.2);color:#fff;">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a class="btn btn-icon btn-danger"
+                                       asp-action="Delete" asp-route-id="@item.Id" title="Retirer">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="book-card-body">
+                                <h6 class="book-title" title="@item.Titre">@item.Titre</h6>
+                                @if (!string.IsNullOrEmpty(item.Sous_Titre))
+                                {
+                                    <p class="book-subtitle" title="@item.Sous_Titre">@item.Sous_Titre</p>
+                                }
+                                <p class="book-author">
+                                    <i class="bi bi-person-fill"></i> @item.Auteur
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <div class="admin-pagination">
+            <span class="pagination-info">
+                Affichage @((Model.Page - 1) * Model.PageSize + 1)–@(Math.Min(Model.Page * Model.PageSize, Model.TotalItems))
+                sur @Model.TotalItems
+            </span>
+            <nav>
+                <ul class="pagination mb-0">
+                    <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-page="@(Model.Page - 1)" asp-route-pageSize="@Model.PageSize"
+                           asp-route-search="@searchQuery">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
+                    {
+                        <li class="page-item @(i == Model.Page ? "active" : "")">
+                            <a class="page-link" asp-action="Index"
+                               asp-route-page="@i" asp-route-pageSize="@Model.PageSize"
+                               asp-route-search="@searchQuery">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.Page == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-page="@(Model.Page + 1)" asp-route-pageSize="@Model.PageSize"
+                           asp-route-search="@searchQuery">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('searchInput')?.addEventListener('input', function () {
+        const q = this.value.toLowerCase().trim();
+        document.querySelectorAll('.book-grid-item').forEach(el => {
+            el.style.display = el.innerText.toLowerCase().includes(q) ? '' : 'none';
+        });
+    });
+</script>
+}
+
+<style>
+.lv-search-wrap { width: 220px; }
+.book-card-img-wrap {
+    position: relative; overflow: hidden;
+    height: 200px; background: #f0f2f5;
+}
+.book-card-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .35s ease; display: block;
+}
+.book-card:hover .book-card-img-wrap img { transform: scale(1.06); }
+.book-card-overlay {
+    position: absolute; inset: 0;
+    background: rgba(18,22,42,.55);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    opacity: 0; transition: opacity .25s ease; backdrop-filter: blur(2px);
+}
+.book-card:hover .book-card-overlay { opacity: 1; }
+.book-card-body { padding: 14px 16px; background: #fff; }
+.book-title {
+    font-size: .9rem; font-weight: 700; color: var(--text-primary);
+    margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.book-subtitle {
+    font-size: .78rem; color: var(--text-secondary); margin-bottom: 4px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.book-author {
+    font-size: .78rem; color: var(--text-muted); margin: 0;
+    display: flex; align-items: center; gap: 5px;
+}
+.book-author i { color: var(--accent); font-size: .7rem; }
+.admin-pagination {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 22px; border-top: 1px solid #f1f3f7; flex-wrap: wrap; gap: 10px;
+}
+.pagination-info { font-size: .8rem; color: var(--text-muted); }
+.pagination .page-link {
+    border: 1.5px solid #e5e7eb; color: var(--text-secondary);
+    border-radius: 8px !important; margin: 0 2px;
+    padding: 6px 12px; font-size: .82rem; font-weight: 600; transition: all .2s;
+}
+.pagination .page-link:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.pagination .page-item.active .page-link {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+    box-shadow: 0 3px 10px rgba(102,126,234,.35);
+}
+.pagination .page-item.disabled .page-link { opacity: .4; pointer-events: none; }
+.input-group-text {
+    border-radius: 9px 0 0 9px !important;
+    border: 1.5px solid #e5e7eb; border-right: none;
+}
+.input-group .form-control {
+    border-radius: 0 9px 9px 0 !important;
+    border: 1.5px solid #e5e7eb;
+}
+</style>

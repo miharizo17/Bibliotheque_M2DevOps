@@ -1,0 +1,65 @@
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-section {
+    text-align: center;
+    padding: 4rem 0 3rem;
+    color: white;
+}
+
+.book-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+}
+
+.book-card img {
+    height: 280px;
+    object-fit: cover;
+    width: 100%;
+}
+
+#pdfCanvas {
+    max-width: 100%;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.icon-btn i {
+    font-size: 1.1rem;
+}
+
+.modal-book-image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #e2e8f0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-book-image {
+    transition: transform 0.3s ease;
+}
+
+.modal-book-image:hover {
+    transform: scale(1.05);
+}

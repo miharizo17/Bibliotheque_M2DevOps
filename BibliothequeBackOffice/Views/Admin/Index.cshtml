@@ -1,0 +1,78 @@
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+<div class="auth-card">
+
+    <div class="text-center mb-4">
+        <h4 style="font-weight:700;color:var(--text-primary);margin:0;">BiblioAdmin</h4>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:4px;">Espace d'administration</p>
+    </div>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="login-alert">
+            <i class="bi bi-exclamation-circle-fill me-2"></i>@ViewBag.Message
+        </div>
+    }
+
+    <form method="post">
+
+        <div class="mb-3">
+            <label class="form-label">
+                <i class="bi bi-person me-1 text-accent"></i>Nom d'utilisateur
+            </label>
+            <input type="text" name="username" class="form-control"
+                   placeholder="Entrez votre identifiant"
+                   autocomplete="username" required />
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">
+                <i class="bi bi-lock me-1 text-accent"></i>Mot de passe
+            </label>
+            <div style="position:relative;">
+                <input type="password" name="password" id="pwdInput" class="form-control"
+                       placeholder="••••••••" style="padding-right:44px;"
+                       autocomplete="current-password" required />
+                <button type="button" onclick="togglePwd()" tabindex="-1"
+                        style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:.95rem;padding:0;line-height:1;"
+                        aria-label="Afficher le mot de passe">
+                    <i class="bi bi-eye" id="pwdIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" style="padding:.7rem;font-size:.95rem;justify-content:center;">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+        </button>
+
+    </form>
+
+</div>
+
+<style>
+.login-alert {
+    background: rgba(239,68,68,.08);
+    border: 1px solid rgba(239,68,68,.25);
+    border-radius: 10px;
+    color: #dc2626;
+    font-size: .85rem;
+    font-weight: 500;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+</style>
+
+@section Scripts {
+<script>
+function togglePwd() {
+    const inp  = document.getElementById('pwdInput');
+    const icon = document.getElementById('pwdIcon');
+    if (inp.type === 'password') { inp.type = 'text'; icon.className = 'bi bi-eye-slash'; }
+    else                         { inp.type = 'password'; icon.className = 'bi bi-eye'; }
+}
+</script>
+}
