@@ -24,16 +24,10 @@
             }
         </p>
     </div>
-    @if (filtreActif)
-    {
-        <a class="btn btn-primary"
-           asp-action="ExportPdf"
-           asp-route-mois="@moisQuery"
-           asp-route-annee="@anneeQuery">
-            <i class="bi bi-file-earmark-pdf"></i>
-            Exporter PDF
-        </a>
-    }
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exportPdfModal">
+        <i class="bi bi-file-earmark-pdf"></i>
+        Exporter PDF
+    </button>
 </div>
 
 <div class="admin-panel mb-4">
@@ -209,4 +203,47 @@
             </nav>
         </div>
     }
+</div>
+
+<div class="modal fade" id="exportPdfModal" tabindex="-1" aria-labelledby="exportPdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exportPdfModalLabel">
+                    <i class="bi bi-file-earmark-pdf text-accent"></i>
+                    Exporter les abonnements en PDF
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="get" asp-action="ExportPdf" id="exportForm">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Mois</label>
+                            <select name="mois" class="form-select" required>
+                                @{
+                                    var moisNomsModal = new[] { "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" };
+                                }
+                                @for (int m = 1; m <= 12; m++)
+                                {
+                                    <option value="@m">@moisNomsModal[m - 1]</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Année</label>
+                            <input type="number" name="annee" class="form-control" 
+                                   value="@DateTime.Now.Year" min="2000" max="2099" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" form="exportForm" class="btn btn-primary">
+                    <i class="bi bi-download"></i> Générer le PDF
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

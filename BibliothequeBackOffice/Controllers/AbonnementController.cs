@@ -193,20 +193,15 @@ namespace LibraryBackOffice.Controllers
         }
         public async Task<IActionResult> ExportPdf(int? mois = null, int? annee = null)
         {
-            if (!mois.HasValue)
-            {
-                mois = DateTime.Now.Month;
-            }
-            if(!annee.HasValue)
-            {
-                annee = DateTime.Now.Year;
-            }
+            if (!mois.HasValue) mois = DateTime.Now.Month;
+            if (!annee.HasValue) annee = DateTime.Now.Year;
+
             QuestPDF.Settings.License = LicenseType.Community;
+
             var data = await _context.HistoriqueAbonnements
                 .Include(h => h.Utilisateur)
                 .Include(h => h.TypeAbonnement)
-                .Where(h => h.Date_Paiement!.Value.Month == mois &&
-                            h.Date_Paiement!.Value.Year == annee)
+                .Where(h => h.Date_Paiement!.Value.Month == mois && h.Date_Paiement!.Value.Year == annee)
                 .OrderByDescending(h => h.Date_Paiement)
                 .Select(h => new AbonnementPdfDto
                 {
@@ -221,14 +216,10 @@ namespace LibraryBackOffice.Controllers
             if (!data.Any())
                 return BadRequest("Aucune donnée à exporter.");
 
-            var document = new AbonnementPdfDocument(data, (int)mois.Value, (int)annee.Value);
+            var document = new LibraryBackOffice.Documents.AbonnementPdfDocument(data, mois.Value, annee.Value);
             var pdf = document.GeneratePdf();
 
-            return File(
-                pdf,
-                "application/pdf",
-                $"abonnements_{mois:D2}_{annee}.pdf");
+            return File(pdf, "application/pdf", $"abonnements_{mois:D2}_{annee}.pdf");
         }
-
     }
 }
