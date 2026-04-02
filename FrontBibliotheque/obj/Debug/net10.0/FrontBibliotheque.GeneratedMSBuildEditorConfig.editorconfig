@@ -26,6 +26,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWJvbm5lbWVudFxMaXN0ZUFib25uZW1lbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/M1/M2/Dotnet/Exam/Bibliotheque_M2DevOps/FrontBibliotheque/Views/HistoriqueLecture/Liste.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGlzdG9yaXF1ZUxlY3R1cmVcTGlzdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/M1/M2/Dotnet/Exam/Bibliotheque_M2DevOps/FrontBibliotheque/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

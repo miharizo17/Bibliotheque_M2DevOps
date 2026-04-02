@@ -15,6 +15,7 @@ builder.Services.AddHttpClient("Api", client =>
 builder.Services.AddScoped<UtilisateurRepository>();
 builder.Services.AddScoped<HistoriqueAbonnementRepository>();
 builder.Services.AddScoped<V_livreRepository>();
+builder.Services.AddScoped<V_historiquelectureRepository>();
 // 🔥 SESSION
 builder.Services.AddDistributedMemoryCache();
 

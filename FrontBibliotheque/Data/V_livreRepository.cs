@@ -21,14 +21,14 @@ namespace FrontBibliotheque.Data
         }
 
         // Récupérer tous les livres avec filtres facultatifs
-        public List<V_livreModel> GetAll(int? idtypelivre = null, string autre = null)
+        public List<V_livreModel> GetAll(int? idtypelivre = null, string autre = null, int? exclureLusParUtilisateur = null)
         {
             var list = new List<V_livreModel>();
 
             using var conn = GetConnection();
             conn.Open();
 
-            string sql = "SELECT * FROM v_livre WHERE 1=1"; 
+            string sql = "SELECT * FROM v_livre WHERE 1=1";
             using var cmd = new SqlCommand();
             cmd.Connection = conn;
 
@@ -40,9 +40,17 @@ namespace FrontBibliotheque.Data
 
             if (!string.IsNullOrEmpty(autre))
             {
-                // SQL Server LIKE est sensible à la casse selon la collation
-                sql += " AND autre LIKE @autre";
+                sql += " AND (titre LIKE @autre OR auteur LIKE @autre)";
                 cmd.Parameters.AddWithValue("@autre", $"%{autre}%");
+            }
+
+            if (exclureLusParUtilisateur.HasValue)
+            {
+                sql += @" AND id NOT IN (
+                    SELECT DISTINCT id_livre FROM historiquelecture
+                    WHERE id_utilisateur = @idUtilisateur
+                )";
+                cmd.Parameters.AddWithValue("@idUtilisateur", exclureLusParUtilisateur.Value);
             }
 
             sql += " ORDER BY id";

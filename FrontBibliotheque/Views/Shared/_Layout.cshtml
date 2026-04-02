@@ -104,11 +104,19 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link"
-                            href="@Url.Action("Index", "HistoriqueAbonnement")"
-                            onclick="return handleAbonnementClick(event)">
+                               href="@Url.Action("Index", "HistoriqueAbonnement")"
+                               onclick="return handleAbonnementClick(event)">
                                 S’abonner
                             </a>
-
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="@Url.Action("Index", "HistoriqueLecture")"
+                               onclick="return handleConnexionRequise(event)">
+                                📖 Mes lectures
+                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav user-section">
@@ -337,20 +345,22 @@ function logout() {
 
 <script>
 function handleAbonnementClick(event) {
-
     if (currentUserId === null) {
-        // Bloquer la navigation MVC
         event.preventDefault();
-
-        const modal = new bootstrap.Modal(
-            document.getElementById("loginRequiredModal")
-        );
-        modal.show();
-
+        new bootstrap.Modal(document.getElementById("loginRequiredModal")).show();
         return false;
     }
+    return true;
+}
 
-    // utilisateur connecté → laisser MVC faire la redirection
+function handleConnexionRequise(event) {
+    if (currentUserId === null) {
+        event.preventDefault();
+        document.querySelector("#loginRequiredModal .modal-body p").textContent =
+            "Veuillez d'abord vous connecter pour accéder à vos lectures.";
+        new bootstrap.Modal(document.getElementById("loginRequiredModal")).show();
+        return false;
+    }
     return true;
 }
 </script>

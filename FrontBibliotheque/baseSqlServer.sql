@@ -114,3 +114,12 @@ VALUES
 
 (2, 'Science et Futur', 'Innovations de demain', 'Automne', 'Claire Bernard', '2021-09-18',
  'Exploration des avancees scientifiques et technologiques.', 'sciencfutur.jpg', 'sciencefutur.pdf', 1);
+
+ create view v_historiquelecture as 
+select historiquelecture.*,
+livre.titre,
+livre.auteur,
+livre.image,
+livre.document
+from historiquelecture
+join livre on livre.id= historiquelecture.id_livre;

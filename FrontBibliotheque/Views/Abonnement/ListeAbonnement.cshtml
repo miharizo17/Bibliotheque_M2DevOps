@@ -9,349 +9,420 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .page-header h2 {
-        color: white;
-        font-size: 2.5rem;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        font-weight: 600;
-    }
-
-    .btn-primary {
-        background: white !important;
-        color: #667eea !important;
-        border: none !important;
-        padding: 12px 28px !important;
-        border-radius: 50px !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25) !important;
-        background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%) !important;
-    }
+    .page-header h2 { color: white; font-size: 2.5rem; font-weight: 600; text-shadow: 0 4px 20px rgba(0,0,0,0.2); }
 
     .table-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
+        background: rgba(255,255,255,0.97);
         border-radius: 20px;
         padding: 2rem;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    }
-
-    .table {
-        margin-bottom: 0;
-        border-radius: 15px;
-        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
     }
 
     .table thead {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
+    .table thead th { color: white !important; border: none !important; padding: 1.2rem !important; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.5px; }
+    .table tbody tr { cursor: pointer; transition: all 0.2s ease; border-bottom: 1px solid #e8e8e8; }
+    .table tbody tr:hover { background: linear-gradient(90deg, rgba(102,126,234,0.08) 0%, rgba(118,75,162,0.08) 100%); transform: scale(1.01); }
+    .table tbody td { padding: 1.1rem !important; vertical-align: middle; }
 
-    .table thead th {
-        color: white !important;
-        border: none !important;
-        padding: 1.2rem !important;
+    .badge-type {
+        padding: 0.4rem 0.9rem;
+        border-radius: 20px;
+        font-size: 0.82rem;
         font-weight: 600;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        font-size: 0.9rem;
+    }
+    .badge-premium { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #7a4800; }
+    .badge-limite  { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); color: #1a4a7a; }
+
+    /* ===== MODAL FACTURE ===== */
+    .modal-content { border-radius: 20px !important; border: none !important; box-shadow: 0 25px 70px rgba(0,0,0,0.3) !important; }
+    .modal-header  { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 20px 20px 0 0 !important; border: none !important; padding: 1.4rem 1.8rem !important; }
+    .modal-title   { font-weight: 600; font-size: 1.3rem; }
+    .btn-close     { filter: brightness(0) invert(1); }
+
+    /* ===== FACTURE ===== */
+    #factureContent {
+        font-family: 'Segoe UI', sans-serif;
+        background: white;
     }
 
-    .table tbody tr {
-        transition: all 0.3s ease;
-        border-bottom: 1px solid #e8e8e8;
-    }
-
-    .table tbody tr:hover {
-        background: linear-gradient(90deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
-        transform: scale(1.01);
-    }
-
-    .table tbody td {
-        padding: 1.2rem !important;
-        vertical-align: middle;
-    }
-
-    .modal-content {
-        border-radius: 25px !important;
-        border: none !important;
-        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    .modal-header {
+    .facture-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        border-radius: 25px 25px 0 0 !important;
-        border: none !important;
-        padding: 1.5rem !important;
+        padding: 1.8rem 2rem 1.4rem;
+        border-radius: 12px 12px 0 0;
     }
 
-    .modal-title {
-        font-weight: 600;
-        font-size: 1.5rem;
-    }
+    .facture-logo { font-size: 2rem; font-weight: 700; letter-spacing: 1px; }
+    .facture-logo span { font-size: 1.1rem; font-weight: 400; opacity: 0.85; display: block; margin-top: -2px; }
+    .facture-num  { text-align: right; }
+    .facture-num h5 { font-weight: 700; font-size: 1.1rem; margin: 0; }
+    .facture-num small { opacity: 0.85; font-size: 0.82rem; }
 
-    .btn-close {
-        filter: brightness(0) invert(1);
-        opacity: 1;
-    }
+    .facture-body { padding: 1.6rem 2rem; }
 
-    .modal-body {
-        padding: 2rem !important;
-    }
-
-    .form-label {
-        font-weight: 600;
-        color: #333;
+    .facture-section-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #888;
         margin-bottom: 0.5rem;
     }
 
-    .form-control, .form-select {
-        border: 2px solid #e0e0e0 !important;
-        border-radius: 12px !important;
-        padding: 0.8rem !important;
-        transition: all 0.3s ease !important;
-        background: #f9f9f9 !important;
+    .facture-info-box {
+        background: #f8f7ff;
+        border-radius: 10px;
+        padding: 1rem 1.2rem;
+        font-size: 0.9rem;
+        color: #333;
+        line-height: 1.7;
     }
 
-    .form-control:focus, .form-select:focus {
-        border-color: #667eea !important;
-        background: white !important;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1) !important;
+    .facture-divider { border: none; border-top: 2px dashed #e0d9f7; margin: 1.2rem 0; }
+
+    .facture-ligne {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.55rem 0;
+        border-bottom: 1px solid #f0eeff;
+        font-size: 0.9rem;
+    }
+    .facture-ligne:last-child { border-bottom: none; }
+    .facture-ligne .libelle { color: #555; }
+    .facture-ligne .valeur  { font-weight: 600; color: #333; }
+
+    .facture-total {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 0.9rem 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-top: 0.8rem;
     }
 
-    .modal-footer {
-        border: none !important;
-        padding: 1.5rem 2rem !important;
+    .facture-footer {
+        background: #f8f7ff;
+        padding: 0.9rem 2rem;
+        border-radius: 0 0 12px 12px;
+        text-align: center;
+        font-size: 0.78rem;
+        color: #888;
+        line-height: 1.6;
     }
 
-    .btn-secondary {
-        border-radius: 12px !important;
-        padding: 0.7rem 1.5rem !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
+    .btn-pdf {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 0.65rem 1.6rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
     }
+    .btn-pdf:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.4); color: white; }
 
-    .btn-secondary:hover {
-        background: #5a6268 !important;
-        transform: translateY(-2px);
-    }
-
-    .btn-success {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        border: none !important;
-        border-radius: 12px !important;
-        padding: 0.7rem 1.5rem !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3) !important;
-    }
-
-    .btn-success:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4) !important;
-    }
+    .filter-card { background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border-radius: 14px; padding: 1.2rem 1.5rem; border: 1px solid rgba(255,255,255,0.2); }
+    .filter-card label { color: white; font-weight: 500; font-size: 0.88rem; }
+    .filter-card .form-control { border-radius: 10px; border: none; background: rgba(255,255,255,0.92); }
 </style>
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4 page-header">
         <h2>📦 Mes abonnements</h2>
-
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#abonnementModal">
+        <button class="btn btn-light fw-semibold px-4" data-bs-toggle="modal" data-bs-target="#abonnementModal">
             ➕ S'abonner
         </button>
     </div>
 
-    <div class="card mb-4">
-    <div class="card-body">
+    <!-- Filtres -->
+    <div class="filter-card mb-4">
         <div class="row g-3 align-items-end">
             <div class="col-md-4">
-                <label class="form-label">Date paiement (début)</label>
+                <label>Date paiement (début)</label>
                 <input type="date" class="form-control" id="dateDebut">
             </div>
-
             <div class="col-md-4">
-                <label class="form-label">Date paiement (fin)</label>
+                <label>Date paiement (fin)</label>
                 <input type="date" class="form-control" id="dateFin">
             </div>
-
             <div class="col-md-4">
-                <button class="btn btn-secondary w-100" onclick="appliquerFiltre()">
+                <button class="btn btn-light w-100 fw-semibold" onclick="appliquerFiltre()">
                     🔍 Filtrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+        <p class="text-muted small mb-3">Cliquez sur une ligne pour voir les détails.</p>
+        <table class="table table-borderless" id="tableAbonnement">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date paiement</th>
+                    <th>Date expiration</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="4" class="text-center py-4">Chargement...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ===== MODAL NOUVEL ABONNEMENT ===== -->
+<div class="modal fade" id="abonnementModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouvel abonnement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Date de paiement</label>
+                    <input type="date" class="form-control" id="datePaiement">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Type d'abonnement</label>
+                    <select class="form-select" id="typeAbonnementSelect">
+                        <option value="">-- Sélectionner --</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Mode de paiement</label>
+                    <select class="form-select" id="modePaiementSelect">
+                        <option value="">-- Sélectionner --</option>
+                    </select>
+                </div>
+                <div id="msgAbonnement" class="text-center"></div>
+            </div>
+            <div class="modal-footer border-0">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-pdf" onclick="ajouterAbonnement()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL FACTURE ===== -->
+<div class="modal fade" id="factureModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🧾 Détails de l'abonnement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div id="factureContent">
+
+                    <!-- En-tête facture -->
+                    <div class="facture-header">
+                        <div class="row align-items-center">
+                            <div class="col-7">
+                                <div class="facture-logo">
+                                    📚 FrontBiblio
+                                    <span>Votre bibliothèque numérique</span>
+                                </div>
+                                <div class="mt-2" style="font-size:0.82rem; opacity:0.85; line-height:1.7;">
+                                    📍 Lot II J 67 Bis Antananarivo 101, Madagascar<br>
+                                    📞 +261 34 00 000 00 &nbsp;|&nbsp; ✉️ contact@frontbiblio.mg<br>
+                                    🌐 www.frontbiblio.mg
+                                </div>
+                            </div>
+                            <div class="col-5 facture-num">
+                                <h5>REÇU D'ABONNEMENT</h5>
+                                <small id="factureNumero">N° —</small><br>
+                                <small id="factureDate"></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="facture-body">
+
+                        <!-- Détails abonnement -->
+                        <div class="facture-section-title">Détails de l'abonnement</div>
+                        <div class="facture-info-box">
+                            <div class="facture-ligne">
+                                <span class="libelle">Type d'abonnement</span>
+                                <span class="valeur" id="fTypeAbonnement">—</span>
+                            </div>
+                            <div class="facture-ligne">
+                                <span class="libelle">Mode de paiement</span>
+                                <span class="valeur" id="fModePaiement">—</span>
+                            </div>
+                            <div class="facture-ligne">
+                                <span class="libelle">Date de paiement</span>
+                                <span class="valeur" id="fDatePaiement">—</span>
+                            </div>
+                            <div class="facture-ligne">
+                                <span class="libelle">Date d'expiration</span>
+                                <span class="valeur" id="fDateExpiration">—</span>
+                            </div>
+                            <div class="facture-ligne">
+                                <span class="libelle">Durée</span>
+                                <span class="valeur">1 mois</span>
+                            </div>
+                        </div>
+
+                        <hr class="facture-divider">
+
+                        <!-- Tarif -->
+                        <div class="facture-section-title">Récapitulatif</div>
+                        <div class="facture-info-box">
+                            <div class="facture-ligne">
+                                <span class="libelle">Abonnement mensuel</span>
+                                <span class="valeur" id="fTarif">—</span>
+                            </div>
+                        </div>
+                        <div class="facture-total">
+                            <span>TOTAL PAYÉ</span>
+                            <span id="fTotal">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Pied de page facture -->
+                    <div class="facture-footer">
+                        Merci de votre confiance ! &nbsp;|&nbsp; FrontBiblio — Bibliothèque numérique de Madagascar<br>
+                        Ce reçu est généré automatiquement et vaut preuve de paiement.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button class="btn btn-pdf" onclick="genererPDF()">
+                    📄 Générer PDF
                 </button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- html2canvas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <div class="table-container">
-        <table class="table table-bordered table-striped" id="tableAbonnement">
-            <thead class="table-dark">
-                <tr>
-                    <th>Date paiement</th>
-                    <th>Date expiration</th>
-                    <th>Mode paiement</th>
-                    <th>Type abonnement</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="4" class="text-center">Chargement...</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="modal fade" id="abonnementModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Nouvel abonnement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Date de paiement</label>
-                    <input type="date" class="form-control" id="datePaiement">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Type d'abonnement</label>
-                    <select class="form-select" id="typeAbonnementSelect">
-                        <option value="">-- Sélectionner --</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Mode de paiement</label>
-                    <select class="form-select" id="modePaiementSelect">
-                        <option value="">-- Sélectionner --</option>
-                    </select>
-                </div>
-
-                <div id="msgAbonnement" class="text-center"></div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button class="btn btn-success" onclick="ajouterAbonnement()">Valider</button>
-            </div>
-
-        </div>
-    </div>
-</div>
 <script>
 let abonnements = [];
 
-document.addEventListener("DOMContentLoaded", () => {
+const TARIFS = { 1: '15 000 Ar', 2: '8 000 Ar' };
 
+document.addEventListener("DOMContentLoaded", () => {
+    chargerTypeAbonnement();
+    chargerModePaiement();
+    chargerAbonnements();
+});
+
+// ===== CHARGEMENT =====
+function chargerAbonnements() {
     fetch('/api/abonnement/listeAbonnement')
         .then(res => {
-            if (!res.ok) throw new Error("Non autorisé ou erreur serveur");
+            if (!res.ok) throw new Error("Non autorise");
             return res.json();
         })
         .then(data => {
             abonnements = data;
             afficherTable(abonnements);
         })
-        .catch(err => afficherErreur(err.message));
-});
+        .catch(err => {
+            document.querySelector("#tableAbonnement tbody").innerHTML =
+                `<tr><td colspan="4" class="text-danger text-center py-4">${err.message}</td></tr>`;
+        });
+}
 
 function afficherTable(data) {
     const tbody = document.querySelector("#tableAbonnement tbody");
     tbody.innerHTML = "";
 
     if (!data || data.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="4" class="text-center">
-                    Aucun abonnement trouvé
-                </td>
-            </tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4">Aucun abonnement</td></tr>`;
         return;
     }
 
-    data.forEach(item => {
+    data.forEach((item, idx) => {
+        const badge = item.id_typeabonnement === 1
+            ? `<span class="badge-type badge-premium">⭐ Premium</span>`
+            : `<span class="badge-type badge-limite">📘 Limitée</span>`;
+
         tbody.insertAdjacentHTML("beforeend", `
-            <tr>
-                <td>${formatDate(item.date_paiement)}</td>
+            <tr onclick="ouvrirFacture(${idx})">
+                <td class="text-muted">${idx + 1}</td>
+                <td><strong>${formatDate(item.date_paiement)}</strong></td>
                 <td>${formatDate(item.date_expiration)}</td>
-                <td>${item.mode}</td>
-                <td>${item.type_abonnement}</td>
-            </tr>
-        `);
+                <td>${badge}</td>
+            </tr>`);
     });
 }
 
+// ===== FILTRE =====
 function appliquerFiltre() {
-    const debut = document.getElementById("dateDebut").value;
-    const fin = document.getElementById("dateFin").value;
+    const debut   = document.getElementById("dateDebut").value;
+    const fin     = document.getElementById("dateFin").value;
+    const dDebut  = debut ? new Date(debut) : null;
+    const dFin    = fin   ? new Date(fin)   : null;
 
-    if (!debut && !fin) {
-        afficherTable(abonnements);
-        return;
-    }
-
-    const dateDebut = debut ? new Date(debut) : null;
-    const dateFin = fin ? new Date(fin) : null;
-
-    const resultat = abonnements.filter(item => {
-        const datePaiement = new Date(item.date_paiement);
-
-        if (dateDebut && datePaiement < dateDebut) return false;
-        if (dateFin && datePaiement > dateFin) return false;
-
+    const res = abonnements.filter(item => {
+        const dp = new Date(item.date_paiement);
+        if (dDebut && dp < dDebut) return false;
+        if (dFin   && dp > dFin)   return false;
         return true;
     });
-
-    afficherTable(resultat);
+    afficherTable(res);
 }
 
-function formatDate(dateString) {
-    if (!dateString) return "";
+// ===== FACTURE =====
+function ouvrirFacture(idx) {
+    const ab = abonnements[idx];
 
-    const date = new Date(dateString);
-    let formatted = date.toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric'
+    document.getElementById("factureNumero").textContent  = `N° ABN-${String(ab.id).padStart(5,'0')}`;
+    document.getElementById("factureDate").textContent    = `Émis le ${formatDate(new Date().toISOString())}`;
+    document.getElementById("fTypeAbonnement").textContent = ab.type_abonnement ?? "—";
+    document.getElementById("fModePaiement").textContent  = ab.mode ?? "—";
+    document.getElementById("fDatePaiement").textContent  = formatDate(ab.date_paiement);
+    document.getElementById("fDateExpiration").textContent = formatDate(ab.date_expiration);
+
+    const tarif = TARIFS[ab.id_typeabonnement] ?? "—";
+    document.getElementById("fTarif").textContent = tarif;
+    document.getElementById("fTotal").textContent = tarif;
+
+    new bootstrap.Modal(document.getElementById("factureModal")).show();
+}
+
+// ===== GÉNÉRATION PDF =====
+function genererPDF() {
+    const el = document.getElementById("factureContent");
+    html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#ffffff" }).then(canvas => {
+        const link     = document.createElement("a");
+        const num      = document.getElementById("factureNumero").textContent.trim().replace(/\s/g,'_');
+        link.download  = `Recu_${num}.png`;
+        link.href      = canvas.toDataURL("image/png");
+        link.click();
     });
-
-    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
 }
 
-function afficherErreur(message) {
-    document.querySelector("#tableAbonnement tbody").innerHTML = `
-        <tr>
-            <td colspan="4" class="text-danger text-center">
-                ${message}
-            </td>
-        </tr>`;
+// ===== UTILITAIRES =====
+function formatDate(dateStr) {
+    if (!dateStr) return "—";
+    const d = new Date(dateStr);
+    const s = d.toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }
-</script>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    chargerTypeAbonnement();
-    chargerModePaiement();
-});
 
 function chargerTypeAbonnement() {
     fetch('/api/abonnement/typeAbonnement')
         .then(res => res.json())
         .then(data => {
-            const select = document.getElementById("typeAbonnementSelect");
+            const sel = document.getElementById("typeAbonnementSelect");
             data.forEach(item => {
-                select.innerHTML += `<option value="${item.id}">${item.type_abonnement}</option>`;
+                sel.innerHTML += `<option value="${item.id}">${item.type_abonnement}</option>`;
             });
         });
 }
@@ -360,36 +431,32 @@ function chargerModePaiement() {
     fetch('/api/abonnement/modePaiement')
         .then(res => res.json())
         .then(data => {
-            const select = document.getElementById("modePaiementSelect");
+            const sel = document.getElementById("modePaiementSelect");
             data.forEach(item => {
-                select.innerHTML += `<option value="${item.id}">${item.mode}</option>`;
+                sel.innerHTML += `<option value="${item.id}">${item.mode}</option>`;
             });
         });
 }
-</script>
 
-<script>
 function ajouterAbonnement() {
-    const datePaiement = document.getElementById("datePaiement").value;
-    const typeAbonnement = document.getElementById("typeAbonnementSelect").value;
-    const modePaiement = document.getElementById("modePaiementSelect").value;
-    const msg = document.getElementById("msgAbonnement");
+    const datePaiement    = document.getElementById("datePaiement").value;
+    const typeAbonnement  = document.getElementById("typeAbonnementSelect").value;
+    const modePaiement    = document.getElementById("modePaiementSelect").value;
+    const msg             = document.getElementById("msgAbonnement");
 
     if (!datePaiement || !typeAbonnement || !modePaiement) {
         msg.innerHTML = `<span class="text-danger">Tous les champs sont obligatoires</span>`;
         return;
     }
 
-    const payload = {
-        date_paiement: datePaiement,
-        id_typeabonnement: parseInt(typeAbonnement),
-        id_modepaiement: parseInt(modePaiement)
-    };
-
     fetch('/api/abonnement/ajoutAbonnement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+            date_paiement: datePaiement,
+            id_typeabonnement: parseInt(typeAbonnement),
+            id_modepaiement: parseInt(modePaiement)
+        })
     })
     .then(res => res.json())
     .then(data => {
@@ -400,8 +467,6 @@ function ajouterAbonnement() {
             setTimeout(() => location.reload(), 1200);
         }
     })
-    .catch(() => {
-        msg.innerHTML = `<span class="text-danger">Erreur serveur</span>`;
-    });
+    .catch(() => { msg.innerHTML = `<span class="text-danger">Erreur serveur</span>`; });
 }
 </script>

@@ -90,24 +90,60 @@ namespace FrontBibliotheque.Controllers.Api
             int idUtilisateur,
             int idLivre)
         {
-            // 🔁 Appel de la logique métier
-            var result = await _repo
-                .PeutLireLivreAsync(idUtilisateur, idLivre);
-
-            if (!result.PeutLire)
-            {
-                return Ok(new
-                {
-                    autorise = false,
-                    message = result.Message
-                });
-            }
+            var result = await _repo.PeutLireLivreAsync(idUtilisateur, idLivre);
 
             return Ok(new
             {
-                autorise = true,
+                autorise = result.PeutLire,
+                statut = result.Statut,
                 message = result.Message
             });
+        }
+
+        public class LectureRequest
+        {
+            public int idLivre { get; set; }
+        }
+
+        // ✅ Vérifier accès + enregistrer la lecture
+        [HttpPost("verifier-lecture")]
+        public async Task<IActionResult> VerifierLecture([FromBody] LectureRequest req)
+        {
+            int? id = HttpContext.Session.GetInt32("id");
+
+            if (id == null)
+                return Ok(new { statut = "non_connecte", message = "Veuillez vous connecter" });
+
+            var result = await _repo.PeutLireLivreAsync(id.Value, req.idLivre);
+
+            if (!result.PeutLire)
+                return Ok(new { statut = result.Statut, message = result.Message });
+
+            // Insérer dans historiquelecture seulement si pas déjà lu
+            if (!result.DejaLu)
+                await _repo.InsererHistoriqueLectureAsync(id.Value, req.idLivre);
+
+            return Ok(new { statut = "ok", message = result.Message });
+        }
+
+        // ✅ Payer le livre (2000 Ar) + enregistrer la lecture
+        [HttpPost("payer-lecture")]
+        public async Task<IActionResult> PayerLecture([FromBody] LectureRequest req)
+        {
+            int? id = HttpContext.Session.GetInt32("id");
+
+            if (id == null)
+                return Ok(new { statut = "non_connecte", message = "Veuillez vous connecter" });
+
+            try
+            {
+                await _repo.InsererPaiementLivreAsync(id.Value, req.idLivre, 2000);
+                return Ok(new { statut = "ok", message = "Paiement effectué avec succès" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Erreur lors du paiement", error = ex.Message });
+            }
         }
     }
 }

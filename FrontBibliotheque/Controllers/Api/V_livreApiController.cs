@@ -15,11 +15,18 @@ namespace FrontBibliotheque.Controllers.Api
             _repo = repo;
         }
 
-       [HttpGet]
-        public IActionResult GetAll([FromQuery] int? idtypelivre, [FromQuery] string? autre)
+        [HttpGet]
+        public IActionResult GetAll(
+            [FromQuery] int? idtypelivre,
+            [FromQuery] string? autre,
+            [FromQuery] bool? exclureLus)
         {
-            var livres = _repo.GetAll(idtypelivre, autre);
+            int? idUtilisateur = null;
 
+            if (exclureLus == true)
+                idUtilisateur = HttpContext.Session.GetInt32("id");
+
+            var livres = _repo.GetAll(idtypelivre, autre, idUtilisateur);
             return Ok(livres);
         }
 

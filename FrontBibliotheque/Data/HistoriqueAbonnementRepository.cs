@@ -170,14 +170,16 @@ namespace FrontBibliotheque.Data
         public class LectureResult
         {
             public bool PeutLire { get; set; }
+            public string Statut { get; set; }  // "ok" | "pas_abonnement" | "quota_depasse"
             public string Message { get; set; }
+            public bool DejaLu { get; set; }
         }
 
-        private LectureResult Autorise(string message)
-            => new LectureResult { PeutLire = true, Message = message };
+        private LectureResult Autorise(string message, bool dejaLu = false)
+            => new LectureResult { PeutLire = true, Statut = "ok", Message = message, DejaLu = dejaLu };
 
-        private LectureResult Refus(string message)
-            => new LectureResult { PeutLire = false, Message = message };
+        private LectureResult Refus(string statut, string message)
+            => new LectureResult { PeutLire = false, Statut = statut, Message = message };
 
         // ======================================================
         // VERIFICATION LECTURE LIVRE
@@ -206,7 +208,7 @@ namespace FrontBibliotheque.Data
                 using var reader = await cmd.ExecuteReaderAsync();
 
                 if (!reader.Read())
-                    return Refus("Vous devez vous abonner pour lire ce livre");
+                    return Refus("pas_abonnement", "Vous devez vous abonner pour lire ce livre");
 
                 idTypeAbonnement = reader.GetInt32(0);
                 datePaiement = reader.GetDateTime(1);
@@ -215,19 +217,19 @@ namespace FrontBibliotheque.Data
 
             // 2️⃣ Vérification dates
             if (today < datePaiement)
-                return Refus($"Votre abonnement commence le {datePaiement:dd/MM/yyyy}");
+                return Refus("pas_abonnement", $"Votre abonnement commence le {datePaiement:dd/MM/yyyy}");
 
             if (today > dateExpiration)
-                return Refus("Votre abonnement est expiré, veuillez renouveler");
+                return Refus("pas_abonnement", "Votre abonnement est expiré, veuillez renouveler");
 
-            // 3️⃣ Premium
+            // 3️⃣ Premium (type 1 = illimité)
             if (idTypeAbonnement == 1)
                 return Autorise("Lecture autorisée (abonnement premium)");
 
-            // 4️⃣ Livre déjà lu
+            // 4️⃣ Livre déjà acheté → accès libre
             using (var cmd = new SqlCommand(@"
                 SELECT TOP 1 1
-                FROM historiquelecture
+                FROM historiquepaiementlivre
                 WHERE id_utilisateur = @id_utilisateur
                   AND id_livre = @id_livre
             ", conn))
@@ -236,14 +238,32 @@ namespace FrontBibliotheque.Data
                 cmd.Parameters.AddWithValue("@id_livre", idLivre);
 
                 if (await cmd.ExecuteScalarAsync() != null)
-                    return Autorise("Lecture autorisée (livre déjà lu)");
+                    return Autorise("Lecture autorisée (livre acheté)", dejaLu: true);
             }
 
-            // 5️⃣ Quota
+            // 5️⃣ Livre déjà lu dans cette période → ne compte pas dans le quota
+            using (var cmd = new SqlCommand(@"
+                SELECT TOP 1 1
+                FROM historiquelecture
+                WHERE id_utilisateur = @id_utilisateur
+                  AND id_livre = @id_livre
+                  AND date_lecture BETWEEN @date_paiement AND @date_expiration
+            ", conn))
+            {
+                cmd.Parameters.AddWithValue("@id_utilisateur", idUtilisateur);
+                cmd.Parameters.AddWithValue("@id_livre", idLivre);
+                cmd.Parameters.AddWithValue("@date_paiement", datePaiement);
+                cmd.Parameters.AddWithValue("@date_expiration", dateExpiration);
+
+                if (await cmd.ExecuteScalarAsync() != null)
+                    return Autorise("Lecture autorisée (livre déjà lu)", dejaLu: true);
+            }
+
+            // 6️⃣ Quota (type 2 = limité à 3 lectures)
             int nbLivresLus;
 
             using (var cmd = new SqlCommand(@"
-                SELECT COUNT(*)
+                SELECT COUNT(DISTINCT id_livre)
                 FROM historiquelecture
                 WHERE id_utilisateur = @id_utilisateur
                   AND date_lecture BETWEEN @date_paiement AND @date_expiration
@@ -256,25 +276,62 @@ namespace FrontBibliotheque.Data
                 nbLivresLus = (int)await cmd.ExecuteScalarAsync();
             }
 
-            if (nbLivresLus < 5)
+            if (nbLivresLus < 3)
                 return Autorise("Lecture autorisée (quota restant)");
 
-            // 6️⃣ Livre acheté
+            return Refus("quota_depasse", "Vous avez atteint la limite de 3 lectures pour cet abonnement");
+        }
+
+        // ======================================================
+        // INSERTION HISTORIQUE LECTURE
+        // ======================================================
+        public async Task InsererHistoriqueLectureAsync(int idUtilisateur, int idLivre)
+        {
+            using var conn = GetConnection();
+            await conn.OpenAsync();
+
+            using var cmd = new SqlCommand(@"
+                INSERT INTO historiquelecture (date_lecture, id_livre, id_utilisateur)
+                VALUES (@date_lecture, @id_livre, @id_utilisateur)
+            ", conn);
+
+            cmd.Parameters.AddWithValue("@date_lecture", DateTime.Today);
+            cmd.Parameters.AddWithValue("@id_livre", idLivre);
+            cmd.Parameters.AddWithValue("@id_utilisateur", idUtilisateur);
+
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        // ======================================================
+        // PAIEMENT LIVRE + INSERTION LECTURE
+        // ======================================================
+        public async Task InsererPaiementLivreAsync(int idUtilisateur, int idLivre, double prix)
+        {
+            using var conn = GetConnection();
+            await conn.OpenAsync();
+
             using (var cmd = new SqlCommand(@"
-                SELECT TOP 1 1
-                FROM historiquepaiementlivre
-                WHERE id_utilisateur = @id_utilisateur
-                  AND id_livre = @id_livre
+                INSERT INTO historiquepaiementlivre (date_lecture, id_livre, id_utilisateur, prix)
+                VALUES (@date_lecture, @id_livre, @id_utilisateur, @prix)
             ", conn))
             {
-                cmd.Parameters.AddWithValue("@id_utilisateur", idUtilisateur);
+                cmd.Parameters.AddWithValue("@date_lecture", DateTime.Today);
                 cmd.Parameters.AddWithValue("@id_livre", idLivre);
-
-                if (await cmd.ExecuteScalarAsync() != null)
-                    return Autorise("Lecture autorisée (livre acheté)");
+                cmd.Parameters.AddWithValue("@id_utilisateur", idUtilisateur);
+                cmd.Parameters.AddWithValue("@prix", prix);
+                await cmd.ExecuteNonQueryAsync();
             }
 
-            return Refus("Votre quota est atteint, vous pouvez acheter ce livre");
+            using (var cmd = new SqlCommand(@"
+                INSERT INTO historiquelecture (date_lecture, id_livre, id_utilisateur)
+                VALUES (@date_lecture, @id_livre, @id_utilisateur)
+            ", conn))
+            {
+                cmd.Parameters.AddWithValue("@date_lecture", DateTime.Today);
+                cmd.Parameters.AddWithValue("@id_livre", idLivre);
+                cmd.Parameters.AddWithValue("@id_utilisateur", idUtilisateur);
+                await cmd.ExecuteNonQueryAsync();
+            }
         }
     }
 }

@@ -1,0 +1,293 @@
+@{
+    ViewData["Title"] = "Mes lectures";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .page-header h2 {
+        color: white;
+        font-size: 2.5rem;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        font-weight: 600;
+    }
+
+    .filter-card {
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .filter-card .form-control,
+    .filter-card .form-select {
+        border-radius: 10px;
+        border: none;
+        background: rgba(255,255,255,0.9);
+    }
+
+    .filter-card label {
+        color: white;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .lecture-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .lecture-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+    }
+
+    .lecture-card-img {
+        width: 90px;
+        min-height: 110px;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .lecture-card-body {
+        padding: 0.9rem 1rem;
+        flex: 1;
+    }
+
+    .lecture-card-body h6 {
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.15rem;
+        font-size: 0.95rem;
+    }
+
+    .lecture-card-body .auteur {
+        font-size: 0.82rem;
+        color: #888;
+        margin-bottom: 0.4rem;
+    }
+
+    .badge-date {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.78rem;
+        font-weight: 500;
+    }
+
+    .empty-state {
+        background: rgba(255,255,255,0.15);
+        border-radius: 16px;
+        padding: 3rem;
+        color: white;
+        text-align: center;
+    }
+
+    .pagination .page-link {
+        border-radius: 8px !important;
+        margin: 0 2px;
+        border: none;
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+
+    .pagination .page-item.active .page-link {
+        background: white;
+        color: #667eea;
+        font-weight: 700;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        background: rgba(255,255,255,0.08);
+        color: rgba(255,255,255,0.4);
+    }
+
+    #connexionMsg {
+        background: rgba(255,255,255,0.15);
+        border-radius: 16px;
+        padding: 3rem;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 page-header">
+        <h2>📖 Mes lectures</h2>
+        <span id="totalLabel" class="badge bg-white text-dark fs-6 px-3 py-2"></span>
+    </div>
+
+    <!-- Message si non connecté -->
+    <div id="connexionMsg" class="d-none mb-4">
+        <p class="fs-5 mb-3">Veuillez vous connecter pour voir votre historique de lectures.</p>
+        <button class="btn btn-light px-4" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Se connecter
+        </button>
+    </div>
+
+    <!-- Filtres -->
+    <div id="filtresSection" class="filter-card mb-4 d-none">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label>Titre / Auteur</label>
+                <input type="text" class="form-control" id="filterTitre" placeholder="Rechercher...">
+            </div>
+            <div class="col-md-3">
+                <label>Date début</label>
+                <input type="date" class="form-control" id="filterDateDebut">
+            </div>
+            <div class="col-md-3">
+                <label>Date fin</label>
+                <input type="date" class="form-control" id="filterDateFin">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-light w-100 fw-semibold" onclick="appliquerFiltre()">
+                    🔍 Filtrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Liste -->
+    <div id="lecturesContainer" class="row g-3 mb-4"></div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        <ul class="pagination" id="pagination"></ul>
+    </div>
+</div>
+
+<script>
+let toutesLectures = [];
+let currentPage = 1;
+const itemsPerPage =3;
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Attendre que le profil soit chargé (loadUserProfile est dans le layout)
+    setTimeout(verifierConnexionEtCharger, 400);
+});
+
+function verifierConnexionEtCharger() {
+    fetch('/api/utilisateurs/profile')
+        .then(res => {
+            if (!res.ok) throw new Error("non_connecte");
+            return res.json();
+        })
+        .then(() => {
+            document.getElementById("filtresSection").classList.remove("d-none");
+            chargerLectures();
+        })
+        .catch(() => {
+            document.getElementById("connexionMsg").classList.remove("d-none");
+        });
+}
+
+function chargerLectures() {
+    const titre     = document.getElementById("filterTitre").value.trim();
+    const dateDebut = document.getElementById("filterDateDebut").value;
+    const dateFin   = document.getElementById("filterDateFin").value;
+
+    let url = "/api/historique-lecture?";
+    if (titre)     url += `titre=${encodeURIComponent(titre)}&`;
+    if (dateDebut) url += `dateDebut=${dateDebut}&`;
+    if (dateFin)   url += `dateFin=${dateFin}&`;
+
+    fetch(url)
+        .then(res => {
+            if (res.status === 401) throw new Error("non_connecte");
+            return res.json();
+        })
+        .then(data => {
+            toutesLectures = data;
+            document.getElementById("totalLabel").textContent =
+                data.length + " lecture" + (data.length > 1 ? "s" : "");
+            afficherPage(1);
+            renderPagination();
+        })
+        .catch(err => {
+            if (err.message === "non_connecte") {
+                document.getElementById("filtresSection").classList.add("d-none");
+                document.getElementById("connexionMsg").classList.remove("d-none");
+            }
+        });
+}
+
+function appliquerFiltre() {
+    chargerLectures();
+}
+
+function afficherPage(page) {
+    currentPage = page;
+    const container = document.getElementById("lecturesContainer");
+    container.innerHTML = "";
+
+    const start = (page - 1) * itemsPerPage;
+    const items = toutesLectures.slice(start, start + itemsPerPage);
+
+    if (items.length === 0) {
+        container.innerHTML = `
+            <div class="col-12">
+                <div class="empty-state">
+                    <p class="fs-5 mb-0">Aucune lecture trouvée.</p>
+                </div>
+            </div>`;
+        return;
+    }
+
+    items.forEach(lec => {
+        const dateStr = lec.date_lecture
+            ? new Date(lec.date_lecture).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' })
+            : "—";
+
+        container.innerHTML += `
+        <div class="col-md-6 col-lg-4">
+            <div class="lecture-card">
+                <img class="lecture-card-img"
+                     src="/assets/${lec.image ?? 'placeholder.jpg'}"
+                     alt="${lec.titre ?? ''}">
+                <div class="lecture-card-body">
+                    <h6>${lec.titre ?? 'Titre inconnu'}</h6>
+                    <p class="auteur">${lec.auteur ?? ''}</p>
+                    <span class="badge-date">📅 ${dateStr}</span>
+                </div>
+            </div>
+        </div>`;
+    });
+}
+
+function renderPagination() {
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+    const total = Math.ceil(toutesLectures.length / itemsPerPage);
+
+    if (total <= 1) return;
+
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="afficherPage(${currentPage - 1}); renderPagination();">«</a>
+        </li>`;
+
+    for (let i = 1; i <= total; i++) {
+        pagination.innerHTML += `
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="afficherPage(${i}); renderPagination();">${i}</a>
+            </li>`;
+    }
+
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === total ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="afficherPage(${currentPage + 1}); renderPagination();">»</a>
+        </li>`;
+}
+</script>

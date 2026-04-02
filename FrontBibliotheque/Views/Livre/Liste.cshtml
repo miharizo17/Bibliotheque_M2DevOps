@@ -126,6 +126,71 @@
     </div>
 </div>
 
+<!-- ================= MODAL CONNEXION REQUISE (LECTURE) ================= -->
+<div class="modal fade" id="modalConnexionLecture" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🔐 Connexion requise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Veuillez d'abord vous connecter pour lire ce livre.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary" data-bs-dismiss="modal"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Se connecter
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL PAS D'ABONNEMENT ================= -->
+<div class="modal fade" id="modalPasAbonnement" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">📦 Abonnement requis</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p id="msgPasAbonnement">Veuillez effectuer votre abonnement pour ce mois afin de lire ce livre.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <a href="/HistoriqueAbonnement" class="btn btn-primary">S'abonner</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL QUOTA DEPASSE ================= -->
+<div class="modal fade" id="modalQuotaDepasse" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">⚠️ Quota de lecture atteint</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Vous avez atteint la limite de <strong>3 lectures</strong> pour votre abonnement actuel.</p>
+                <hr>
+                <p>Pour lire ce livre, vous pouvez l'acheter au prix de <strong>2 000 Ar</strong>.</p>
+                <div id="msgPaiement"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-success" id="btnPayerLire" onclick="payerEtLire()">
+                    Payer 2 000 Ar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- ================= MODAL PDF ================= -->
 <div class="modal fade" id="pdfModal" tabindex="-1">
     <div class="modal-dialog modal-fullscreen">
@@ -186,6 +251,7 @@ function loadLivres(idtypelivre = null, texte = null) {
     let url = "/api/livre?";
     if (idtypelivre) url += `idtypelivre=${idtypelivre}&`;
     if (texte) url += `autre=${encodeURIComponent(texte)}&`;
+    if (currentUserId) url += `exclureLus=true&`;
 
     fetch(url)
         .then(res => res.json())
@@ -226,7 +292,7 @@ function rendrePageListe(page) {
 
                         <button class="btn btn-outline-success btn-sm icon-btn"
                                 title="Lire le livre"
-                                onclick='lireLivre("/assets/${livre.document}", "${livre.titre.replace(/"/g, "&quot;")}");'>
+                                onclick='lireLivre(${livre.id}, "/assets/${livre.document}", "${livre.titre.replace(/"/g, "&quot;")}");'>
                             <i class="bi bi-book"></i>
                         </button>
                     </div>
@@ -332,10 +398,14 @@ function applyFilter() {
 // Bouton filtrer pour le texte
 document.getElementById("btnFilter").addEventListener("click", () => applyFilter());
 
-// Charger tout au démarrage
+// Charger tout au démarrage — profil d'abord pour savoir si exclureLus
 document.addEventListener("DOMContentLoaded", () => {
     loadTypeLivre();
-    loadLivres();
+    fetch('/api/utilisateurs/profile')
+        .then(res => res.ok ? res.json() : null)
+        .then(user => { if (user?.id) currentUserId = user.id; })
+        .catch(() => {})
+        .finally(() => loadLivres());
 });
 
 /* ================= MODAL INFO ================= */
@@ -352,12 +422,46 @@ function voirPlus(livre) {
 }
 
 /* ================= LECTURE PDF ================= */
-function lireLivre(pdfPath, titreLivre) {
+let idLivreEnCours = null;
+let pdfPathEnCours = null;
+let titreLivreEnCours = null;
+
+function lireLivre(idLivre, pdfPath, titreLivre) {
     livreModalInstance.hide();
 
-    // 🔹 Mettre le titre du livre dans l'en-tête du modal
-    document.getElementById("pdfModalTitle").textContent = "📖 " + titreLivre;
+    idLivreEnCours = idLivre;
+    pdfPathEnCours = pdfPath;
+    titreLivreEnCours = titreLivre;
 
+    // 1️⃣ Vérifier si connecté
+    if (!currentUserId) {
+        new bootstrap.Modal(document.getElementById("modalConnexionLecture")).show();
+        return;
+    }
+
+    // 2️⃣ Appel API pour vérifier accès
+    fetch('/api/abonnement/verifier-lecture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idLivre: idLivre })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.statut === 'ok') {
+            ouvrirPdf(pdfPath, titreLivre);
+        } else if (data.statut === 'pas_abonnement') {
+            document.getElementById("msgPasAbonnement").textContent = data.message;
+            new bootstrap.Modal(document.getElementById("modalPasAbonnement")).show();
+        } else if (data.statut === 'quota_depasse') {
+            document.getElementById("msgPaiement").textContent = "";
+            new bootstrap.Modal(document.getElementById("modalQuotaDepasse")).show();
+        }
+    })
+    .catch(() => alert('Erreur serveur, veuillez réessayer.'));
+}
+
+function ouvrirPdf(pdfPath, titreLivre) {
+    document.getElementById("pdfModalTitle").textContent = "📖 " + titreLivre;
     pdfModalInstance.show();
 
     pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
@@ -365,6 +469,36 @@ function lireLivre(pdfPath, titreLivre) {
         pageNum = 1;
         pageCountSpan.textContent = pdf.numPages;
         renderPage(pageNum);
+    });
+}
+
+function payerEtLire() {
+    const btn = document.getElementById("btnPayerLire");
+    btn.disabled = true;
+    btn.textContent = "Paiement en cours...";
+
+    fetch('/api/abonnement/payer-lecture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idLivre: idLivreEnCours })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.statut === 'ok') {
+            bootstrap.Modal.getInstance(document.getElementById("modalQuotaDepasse")).hide();
+            ouvrirPdf(pdfPathEnCours, titreLivreEnCours);
+        } else {
+            document.getElementById("msgPaiement").innerHTML =
+                `<span class="text-danger">${data.message}</span>`;
+            btn.disabled = false;
+            btn.textContent = "Payer 2 000 Ar";
+        }
+    })
+    .catch(() => {
+        document.getElementById("msgPaiement").innerHTML =
+            `<span class="text-danger">Erreur serveur</span>`;
+        btn.disabled = false;
+        btn.textContent = "Payer 2 000 Ar";
     });
 }
 
