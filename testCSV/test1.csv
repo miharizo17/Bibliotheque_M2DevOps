@@ -1,0 +1,9 @@
+Titre,SousTitre,Saison,Auteur,DateEdition,Description,Image,Document,TypeLivre
+Le Petit Prince,,,"Antoine de Saint-Exupéry",1943-04-06,"Classique de la littérature jeunesse.","https://example.com/petitprince.jpg","https://example.com/petitprince.pdf",Roman
+Harry Potter à l'école des sorciers,,"Tome 1","J.K. Rowling",1997-06-26,"Le célèbre sorcier commence sa formation.","https://example.com/harry1.jpg","",Fiction
+Dune,,,"Frank Herbert",1965-08-01,"Chef-d'œuvre de science-fiction.","https://example.com/dune.jpg","",Fiction
+L'Étranger,,,"Albert Camus",1942-01-01,"Roman philosophique existentialiste.","https://example.com/letranger.jpg","",Roman
+Atomic Habits,,,"James Clear",2018-10-16,"Comment construire de bonnes habitudes.","https://example.com/atomichabits.jpg","",Action
+Le Petit Prince,,,"Antoine de Saint-Exupéry",1943-04-06,"Doublon intentionnel pour tester la détection de doublons.","","",Roman
+Le Seigneur des Anneaux,,"Tome 1","J.R.R. Tolkien",1954-07-29,"Le début de la quête de l'Anneau.","https://example.com/seigneur.jpg","",Fiction
+1984,,,"George Orwell",1949-06-08,"Roman dystopique célèbre.","https://example.com/1984.jpg","",Fiction
