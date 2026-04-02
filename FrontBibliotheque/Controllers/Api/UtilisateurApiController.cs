@@ -21,6 +21,47 @@ namespace FrontBibliotheque.Controllers.Api
             public string mdp { get; set; }
         }
 
+        public class RegisterRequest
+        {
+            public string nom { get; set; }
+            public string prenom { get; set; }
+            public string telephone { get; set; }
+            public string mail { get; set; }
+            public string mdp { get; set; }
+        }
+
+
+        // ✅ REGISTER
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.nom) ||
+                string.IsNullOrWhiteSpace(request.prenom) ||
+                string.IsNullOrWhiteSpace(request.mail) ||
+                string.IsNullOrWhiteSpace(request.mdp))
+            {
+                return Ok(new { message = "champs_manquants" });
+            }
+
+            if (_repo.ExistsByMail(request.mail))
+            {
+                return Ok(new { message = "email_existe" });
+            }
+
+            var utilisateur = new UtilisateurModel
+            {
+                nom = request.nom,
+                prenom = request.prenom,
+                telephone = request.telephone ?? "",
+                mail = request.mail,
+                mdp = request.mdp,
+                etat = 0,
+                dateentree = DateTime.Now
+            };
+
+            _repo.Add(utilisateur);
+            return Ok(new { message = "ok" });
+        }
 
         // ✅ LOGIN
         [HttpPost("login")]

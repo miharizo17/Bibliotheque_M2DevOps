@@ -50,7 +50,7 @@ app.MapStaticAssets();
 // MVC
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=V_livre}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 // API

@@ -1,0 +1,250 @@
+@{
+    ViewData["Title"] = "Inscription";
+}
+
+<style>
+    .register-wrapper {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    }
+
+    .register-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.15);
+        overflow: hidden;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .register-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2.5rem 2rem;
+        text-align: center;
+        color: white;
+    }
+
+    .register-header h2 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin: 0.5rem 0 0;
+        letter-spacing: 0.5px;
+    }
+
+    .register-header p {
+        margin: 0.5rem 0 0;
+        opacity: 0.85;
+        font-size: 0.95rem;
+    }
+
+    .register-icon {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .register-body {
+        padding: 2rem 2.5rem 2.5rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #444;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-control {
+        border: 2px solid #e8ecf1;
+        border-radius: 10px;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        outline: none;
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 0.75rem;
+        width: 100%;
+        margin-top: 0.5rem;
+        transition: opacity 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-register:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        color: white;
+    }
+
+    .btn-register:active {
+        transform: translateY(0);
+    }
+
+    .register-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+        font-size: 0.92rem;
+    }
+
+    .register-footer a {
+        color: #667eea;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .row-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    @@media (max-width: 480px) {
+        .row-fields {
+            grid-template-columns: 1fr;
+        }
+
+        .register-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-card">
+        <div class="register-header">
+            <span class="register-icon">📚</span>
+            <h2>Créer un compte</h2>
+        </div>
+
+        <div class="register-body">
+            <div id="registerAlert" class="alert d-none mb-3" role="alert"></div>
+
+            <form id="registerForm" novalidate>
+                <div class="row-fields mb-3">
+                    <div>
+                        <label class="form-label" for="nom">Nom <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="nom"  required>
+                    </div>
+                    <div>
+                        <label class="form-label" for="prenom">Prénom <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="prenom" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="telephone">Téléphone</label>
+                    <input type="tel" class="form-control" id="telephone">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="mail">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="mail" placeholder="xxx@gmail.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="mdp">Mot de passe <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="mdp"  required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="mdpConfirm">Confirmer le mot de passe <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="mdpConfirm"  required>
+                </div>
+
+                <button type="submit" class="btn btn-register" id="btnSubmit">
+                    Créer mon compte
+                </button>
+            </form>
+
+            <div class="register-footer">
+                Déjà inscrit ?
+                <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Se connecter</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+document.getElementById("registerForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const nom = document.getElementById("nom").value.trim();
+    const prenom = document.getElementById("prenom").value.trim();
+    const telephone = document.getElementById("telephone").value.trim();
+    const mail = document.getElementById("mail").value.trim();
+    const mdp = document.getElementById("mdp").value;
+    const mdpConfirm = document.getElementById("mdpConfirm").value;
+    const alertDiv = document.getElementById("registerAlert");
+    const btnSubmit = document.getElementById("btnSubmit");
+
+    // Validation côté client
+    if (!nom || !prenom || !mail || !mdp) {
+        showAlert("danger", "⚠️ Veuillez remplir tous les champs obligatoires.");
+        return;
+    }
+
+    if (mdp !== mdpConfirm) {
+        showAlert("danger", "❌ Les mots de passe ne correspondent pas.");
+        return;
+    }
+
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = "Création en cours...";
+
+    fetch("/api/utilisateurs/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nom, prenom, telephone, mail, mdp })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.message === "ok") {
+            showAlert("success", "✅ Compte créé avec succès ! Redirection...");
+            setTimeout(() => {
+                window.location.href = "/V_livre/Index";
+            }, 1500);
+        } else if (data.message === "email_existe") {
+            showAlert("danger", "❌ Cet email est déjà utilisé. Veuillez en choisir un autre.");
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = "Créer mon compte";
+        } else {
+            showAlert("danger", "⚠️ Veuillez remplir tous les champs obligatoires.");
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = "Créer mon compte";
+        }
+    })
+    .catch(() => {
+        showAlert("danger", "❌ Erreur serveur. Veuillez réessayer.");
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = "Créer mon compte";
+    });
+});
+
+function showAlert(type, message) {
+    const alertDiv = document.getElementById("registerAlert");
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+}
+</script>
+}

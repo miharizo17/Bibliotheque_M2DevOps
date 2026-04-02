@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj": {}
+    "C:\\M1\\M2\\Dotnet\\Final\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj": {}
   },
   "projects": {
-    "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj": {
+    "C:\\M1\\M2\\Dotnet\\Final\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
+        "projectUniqueName": "C:\\M1\\M2\\Dotnet\\Final\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
         "projectName": "FrontBibliotheque",
-        "projectPath": "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
+        "projectPath": "C:\\M1\\M2\\Dotnet\\Final\\Bibliotheque_M2DevOps\\FrontBibliotheque\\FrontBibliotheque.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\M1\\M2\\Dotnet\\Exam\\Bibliotheque_M2DevOps\\FrontBibliotheque\\obj\\",
+        "outputPath": "C:\\M1\\M2\\Dotnet\\Final\\Bibliotheque_M2DevOps\\FrontBibliotheque\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config"

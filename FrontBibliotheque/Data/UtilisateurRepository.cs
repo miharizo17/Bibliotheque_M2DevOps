@@ -151,6 +151,20 @@ namespace FrontBibliotheque.Data
         }
 
         // ----------------------------
+        // CHECK EMAIL EXISTS
+        // ----------------------------
+        public bool ExistsByMail(string mail)
+        {
+            using var conn = GetConnection();
+            conn.Open();
+
+            using var cmd = new SqlCommand("SELECT COUNT(1) FROM utilisateur WHERE mail = @mail", conn);
+            cmd.Parameters.AddWithValue("@mail", mail);
+
+            return (int)cmd.ExecuteScalar() > 0;
+        }
+
+        // ----------------------------
         // LOGIN
         // ----------------------------
         public UtilisateurModel? Login(string mail, string mdp)

@@ -9,4 +9,4 @@ namespace FrontBibliotheque.Controllers
             return View("/Views/Livre/Liste.cshtml");
         }
     }
-}
+} 

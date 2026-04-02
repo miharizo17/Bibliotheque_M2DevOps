@@ -6,9 +6,7 @@ CREATE TABLE typeLivre (
     id INT IDENTITY(1,1) PRIMARY KEY,
     type_livre VARCHAR(255)
 );
-INSERT INTO typeLivre(type_livre) VALUES ('Roman');
-INSERT INTO typeLivre(type_livre) VALUES ('Action');
-INSERT INTO typeLivre(type_livre) VALUES ('Fiction');
+
 
 -- Table typeAbonnement
 CREATE TABLE typeAbonnement (
@@ -16,11 +14,13 @@ CREATE TABLE typeAbonnement (
     type_abonnement VARCHAR(255)
 );
 
+
 -- Table modePaiement
 CREATE TABLE modePaiement (
     id INT IDENTITY(1,1) PRIMARY KEY,
     mode VARCHAR(255)
 );
+
 
 -- Table livre
 CREATE TABLE livre (
@@ -48,8 +48,7 @@ CREATE TABLE utilisateur (
     etat INT DEFAULT 0,
     dateentree DATE
 );
-INSERT INTO utilisateur(nom, prenom, telephone, mail, mdp)
-VALUES ('Rakoto', 'Zo', '03345678923', 'zo@gmail.com', 'zo');
+
 
 -- Table historiqueabonnement
 CREATE TABLE historiqueabonnement (
@@ -61,15 +60,6 @@ CREATE TABLE historiqueabonnement (
     date_expiration DATE
 );
 
-Go
-create or replace view v_historiqueabonnement as 
-select historiqueabonnement.*,
-modePaiement.mode,
-typeAbonnement.type_abonnement
-from historiqueabonnement
-join typeAbonnement on historiqueabonnement.id_typeabonnement=typeAbonnement.id
-join modePaiement on historiqueabonnement.id_modepaiement=modePaiement.id;
-Go
 
 -- Table historiquelecture
 CREATE TABLE historiquelecture (
@@ -87,9 +77,10 @@ CREATE TABLE historiquepaiementlivre (
     id_utilisateur INT REFERENCES utilisateur(id),
     prix FLOAT
 );
-GO
 
--- Vue v_livre (isolée dans son propre batch)
+
+-- Vue livre 
+GO
 CREATE VIEW v_livre AS
 SELECT livre.*,
        typelivre.type_livre
@@ -97,25 +88,10 @@ FROM livre
 JOIN typelivre ON typelivre.id = livre.id_typelivre;
 GO
 
--- Insertion des livres
-INSERT INTO livre (id_typelivre, titre, sous_titre, saison, auteur, date_edition, description, image, document, etat)
-VALUES
-(1, 'Le Chant du Vent', 'Voyage interieur', 'Printemps', 'Jean Rakoto', '2018-03-15',
- 'Un roman poetique sur la quete de soi et la nature.', 'chantduvent.jpg', 'chantduvent.pdf', 1),
 
-(2, 'Les Ombres du Temps', 'Chroniques anciennes', 'Hiver', 'Marie Dupont', '2020-11-02',
- 'Un thriller historique melant passe et present.', 'ombresdutemps.jpg', 'ombresdutemps.pdf', 1),
-
-(3, 'L Art du Code', 'Programmation moderne', 'Toute l annee', 'Paul Martin', '2022-06-10',
- 'Un guide pratique pour apprendre la programmation propre et efficace.', 'artducode.jpg', 'artducode.pdf', 1),
-
-(1, 'Contes de Madagascar', 'Traditions et legendes', 'ete', 'Rabe Andrianina', '2015-08-25',
- 'Recueil de contes traditionnels malgaches.', 'contesmada.jpg', 'contesmada.pdf', 1),
-
-(2, 'Science et Futur', 'Innovations de demain', 'Automne', 'Claire Bernard', '2021-09-18',
- 'Exploration des avancees scientifiques et technologiques.', 'sciencfutur.jpg', 'sciencefutur.pdf', 1);
-
- create view v_historiquelecture as 
+-- vue historique lecture
+Go
+create view v_historiquelecture as 
 select historiquelecture.*,
 livre.titre,
 livre.auteur,
@@ -123,3 +99,54 @@ livre.image,
 livre.document
 from historiquelecture
 join livre on livre.id= historiquelecture.id_livre;
+Go
+
+-- vue historique abonnement
+Go
+create  view v_historiqueabonnement as 
+select historiqueabonnement.*,
+modePaiement.mode,
+typeAbonnement.type_abonnement
+from historiqueabonnement
+join typeAbonnement on historiqueabonnement.id_typeabonnement=typeAbonnement.id
+join modePaiement on historiqueabonnement.id_modepaiement=modePaiement.id;
+Go
+
+
+-- donnee type livre
+INSERT INTO typeLivre(type_livre) VALUES ('Roman');
+INSERT INTO typeLivre(type_livre) VALUES ('Action');
+INSERT INTO typeLivre(type_livre) VALUES ('Fiction');
+
+-- donnee type abonnement
+insert into typeAbonnement(type_abonnement) values ('Premium');
+insert into typeAbonnement(type_abonnement) values ('Limitée');
+
+
+-- donnee mode paiement
+insert into modePaiement(mode) values ('Mvola');
+insert into modePaiement(mode) values ('AirtelMoney');
+insert into modePaiement(mode) values ('OrangeMoney');
+
+-- donnee utilisateur
+INSERT INTO utilisateur(nom, prenom, telephone, mail, mdp)
+VALUES ('Rakoto', 'Zo', '03345678923', 'zo@gmail.com', 'zo');
+
+
+-- Insertion des livres
+INSERT INTO livre (id_typelivre, titre, sous_titre, saison, auteur, date_edition, description, image, document, etat)
+VALUES
+(1, 'Le Chant du Vent', 'Voyage interieur', 'Printemps', 'Jean Rakoto', '2018-03-15',
+ 'Un roman poetique sur la quete de soi et la nature.', 'fichierimage/chantduvent.jpg', 'fichierpdf/chantduvent.pdf', 1),
+
+(2, 'Les Ombres du Temps', 'Chroniques anciennes', 'Hiver', 'Marie Dupont', '2020-11-02',
+ 'Un thriller historique melant passe et present.', 'fichierimage/ombresdutemps.jpg', 'fichierpdf/ombresdutemps.pdf', 1),
+
+(3, 'L Art du Code', 'Programmation moderne', 'Toute l annee', 'Paul Martin', '2022-06-10',
+ 'Un guide pratique pour apprendre la programmation propre et efficace.', 'fichierimage/artducode.jpg', 'fichierpdf/artducode.pdf', 1),
+
+(1, 'Contes de Madagascar', 'Traditions et legendes', 'ete', 'Rabe Andrianina', '2015-08-25',
+ 'Recueil de contes traditionnels malgaches.', 'fichierimage/contesmada.jpg', 'fichierpdf/contesmada.pdf', 1),
+
+(2, 'Science et Futur', 'Innovations de demain', 'Automne', 'Claire Bernard', '2021-09-18',
+ 'Exploration des avancees scientifiques et technologiques.', 'fichierimage/sciencfutur.jpg', 'fichierpdf/sciencefutur.pdf', 1);
