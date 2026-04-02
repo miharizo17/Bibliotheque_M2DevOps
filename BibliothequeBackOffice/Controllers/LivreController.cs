@@ -283,7 +283,6 @@ namespace LibraryBackOffice.Controllers
             {
                 var result = await _importService.ProcessImportAsync(csvFile, isDryRun: true);
                 
-                // Sérialiser le résultat pour le passer via TempData
                 var json = System.Text.Json.JsonSerializer.Serialize(result);
                 TempData["ImportResult"] = json;
                 
@@ -320,7 +319,6 @@ namespace LibraryBackOffice.Controllers
                     TempData["Error"] = result.ErrorMessage;
                 }
 
-                // Optionnel : repasser le résultat détaillé
                 var json = System.Text.Json.JsonSerializer.Serialize(result);
                 TempData["ImportResult"] = json;
             }

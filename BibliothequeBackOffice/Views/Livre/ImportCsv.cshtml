@@ -14,7 +14,6 @@
     </a>
 </div>
 
-<!-- ══ FORMAT ATTENDU ══ -->
 <div class="admin-panel mb-4">
     <div class="admin-panel-header">
         <div class="admin-panel-title">
@@ -32,7 +31,6 @@
     </div>
 </div>
 
-<!-- ══ UPLOAD ══ -->
 <div class="admin-panel mb-4">
     <div class="admin-panel-header">
         <div class="admin-panel-title">
@@ -40,7 +38,7 @@
         </div>
     </div>
     <div class="admin-panel-body">
-        <form asp-action="ImportCsvDryRun" method="post" enctype="multipart/form-data" id="importForm">
+        <form asp-action="ImportCsvConfirm" method="post" enctype="multipart/form-data" id="importForm">
             <div class="row g-3 align-items-end">
                 <div class="col-md-7">
                     <label class="form-label">
@@ -51,21 +49,20 @@
                 </div>
                 <div class="col-md-auto d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-eye"></i> Valider (simulation)
+                        <i class="bi bi-eye"></i> Importer
                     </button>
-                    @if (Model.HasResult && Model.Result?.ValidRows > 0)
+                    @* @if (Model.HasResult && Model.Result?.ValidRows > 0)
                     {
                         <button type="button" onclick="confirmImport()" class="btn btn-success">
                             <i class="bi bi-check2-circle"></i> Confirmer l'import
                         </button>
-                    }
+                    } *@
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<!-- ══ MESSAGES ══ -->
 @if (!string.IsNullOrEmpty(Model.SuccessMessage))
 {
     <div class="admin-panel mb-3" style="border:1px solid rgba(16,185,129,.3);">
@@ -83,7 +80,6 @@
     </div>
 }
 
-<!-- ══ RAPPORT ══ -->
 @if (Model.HasResult && Model.Result != null)
 {
     <div class="admin-panel">
@@ -97,7 +93,6 @@
         </div>
         <div class="admin-panel-body">
 
-            <!-- Stats -->
             <div class="row g-3 mb-4">
                 <div class="col-md-3 col-6">
                     <div class="stat-card">
@@ -137,7 +132,6 @@
                 </div>
             </div>
 
-            <!-- Table détail -->
             @if (Model.Result.Items.Any())
             {
                 <div class="table-responsive">
@@ -219,7 +213,7 @@ function confirmImport() {
         const input = document.createElement('input');
         input.type  = 'hidden';
         input.name  = 'csvFile';
-        input.value = document.getElementById('csvFile').files[0]?.name ?? '';
+        input.value = document.getElementById('csvFile').value;
         form.appendChild(input);
         form.action = '@Url.Action("ImportCsvConfirm")';
         form.submit();
