@@ -36,9 +36,9 @@
     <div class="col-lg-3 col-md-4">
         <div class="admin-panel text-center">
             <div class="admin-panel-body">
-                <img src="@Url.Content(Model.Image)"
+                <img src="/shared-assets/@Url.Content(Model.Image)"
                      alt="@Model.Titre"
-                     onerror="this.src='/images/book-placeholder.png'"
+                     onerror="this.src='/shared-assets/book-placeholder.png'"
                      style="width:100%;max-width:180px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);margin-bottom:16px;" />
 
                 @if (!string.IsNullOrEmpty(typeLivreText))
@@ -52,7 +52,7 @@
 
                 @if (!string.IsNullOrEmpty(Model.Document))
                 {
-                    <a href="@Model.Document" target="_blank" class="btn btn-primary w-100 mt-2" style="font-size:.8rem;">
+                    <a href="/shared-assets/@Model.Document" target="_blank" class="btn btn-primary w-100 mt-2" style="font-size:.8rem;">
                         <i class="bi bi-file-earmark-pdf"></i> Lire le PDF
                     </a>
                 }

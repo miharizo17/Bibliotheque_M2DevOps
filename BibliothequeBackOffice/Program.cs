@@ -1,15 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using LibraryBackOffice.Data;
 using LibraryBackOffice.Services;
+using System.ComponentModel;
+using System.IO;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<LibraryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryContext") ?? throw new InvalidOperationException("Connection string 'LibraryContext' not found.")));
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -37,6 +38,13 @@ else
 app.UseSession();
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "..", "assets")),
+    RequestPath = "/shared-assets"
+});
 app.UseStaticFiles();
 
 app.UseRouting();

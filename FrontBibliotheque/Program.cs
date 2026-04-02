@@ -1,4 +1,6 @@
 using FrontBibliotheque.Data;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +57,13 @@ app.MapControllerRoute(
 
 // API
 app.MapControllers();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "..", "assets")),
+    RequestPath = "/shared-assets"
+});
 app.UseStaticFiles();
 
 

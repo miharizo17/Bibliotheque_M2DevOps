@@ -33,9 +33,9 @@
         <div class="admin-panel text-center">
             <div class="admin-panel-body">
                 <img id="coverPreview"
-                     src="@Url.Content(Model.Image)"
+                     src="/shared-assets/@Url.Content(Model.Image)"
                      alt="Couverture"
-                     onerror="this.src='/images/book-placeholder.png'"
+                     onerror="this.src='/shared-assets/book-placeholder.png'"
                      style="width:100%;max-width:180px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);margin-bottom:12px;" />
                 <p class="book-title text-center" style="font-size:.85rem;">@Model.Titre</p>
                 <p class="text-muted-sm">par @Model.Auteur</p>
