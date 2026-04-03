@@ -32,7 +32,7 @@ namespace LibraryBackOffice.Controllers
         {
             try
             {
-                var Admin = _context.Admin.FirstOrDefault(u => u.Username == Username && u.Password == Password);
+                var Admin = _context.Admin.FirstOrDefault(u => EF.Functions.Collate(u.Username, "SQL_Latin1_General_CP1_CS_AS") == Username && EF.Functions.Collate(u.Password, "SQL_Latin1_General_CP1_CS_AS") == Password);
                 if (Admin != null)
                 {
                     HttpContext.Session.SetInt32("AdminId", Admin.Id!);
@@ -43,8 +43,8 @@ namespace LibraryBackOffice.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Username ou Password incorrects";
-                    ModelState.AddModelError(string.Empty, "Username ou Password incorrects");
+                    ViewBag.Message = "Nom utilisateur ou mot de passe incorrecte";
+                    ModelState.AddModelError(string.Empty, "Nom utilisateur ou mot de passe incorrecte");
                     return View();
                 }
             }

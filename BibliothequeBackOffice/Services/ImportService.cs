@@ -26,7 +26,6 @@ namespace LibraryBackOffice.Services
 
             var importDtos = new List<LivreImportDto>();
 
-            // 1. Parsing
             using (var reader = new StreamReader(csvFile.OpenReadStream(), Encoding.UTF8))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
@@ -54,7 +53,7 @@ namespace LibraryBackOffice.Services
                 dto.Errors.Clear();
                 dto.IsValid = true;
 
-                // Validation champs obligatoires
+// Verification des attributs
                 if (string.IsNullOrWhiteSpace(dto.Titre))
                 {
                     dto.Errors.Add("Titre obligatoire");
@@ -71,7 +70,7 @@ namespace LibraryBackOffice.Services
                     dto.IsValid = false;
                 }
 
-                // Résolution du TypeLivre par nom
+// Trouver TypeLivre par nom
                 var typeKey = dto.TypeLivreNom.Trim().ToLower();
                 if (allTypeLivres.TryGetValue(typeKey, out int typeId))
                 {
@@ -83,7 +82,7 @@ namespace LibraryBackOffice.Services
                     dto.IsValid = false;
                 }
 
-                // Détection doublons dans le fichier
+// Detection doublons dans le fichier
                 var key = (dto.Titre.Trim(), dto.Auteur.Trim());
                 if (seenInFile.Contains(key))
                 {
@@ -96,14 +95,14 @@ namespace LibraryBackOffice.Services
                     seenInFile.Add(key);
                 }
 
-                // Doublon dans la base
+// Doublon dans la base
                 bool existsInDb = await _context.Livres.AnyAsync(l =>
                     l.Titre == dto.Titre && l.Auteur == dto.Auteur);
                 if (existsInDb)
                 {
                     dto.IsDuplicateInDatabase = true;
                     dto.Errors.Add("Déjà existant en base (même titre + auteur)");
-                    dto.IsValid = false;   // On peut décider de skipper ou d'autoriser selon besoin
+                    dto.IsValid = false;
                 }
             }
 
@@ -111,7 +110,6 @@ namespace LibraryBackOffice.Services
             result.ErrorRows = importDtos.Count(d => !d.IsValid);
             result.Items = importDtos;
 
-            // 3. Si ce n'est pas un dry-run → insertion
             if (!isDryRun && result.ValidRows > 0)
             {
                 using var transaction = await _context.Database.BeginTransactionAsync();
@@ -149,7 +147,6 @@ namespace LibraryBackOffice.Services
                 }
             }
 
-            // 4. Enregistrement de l'historique
             var history = new ImportHistory
             {
                 FileName = csvFile.FileName,
@@ -168,7 +165,6 @@ namespace LibraryBackOffice.Services
         }
     }
 
-    // Résultat global de l'import
     public class ImportResult
     {
         public string FileName { get; set; } = string.Empty;
