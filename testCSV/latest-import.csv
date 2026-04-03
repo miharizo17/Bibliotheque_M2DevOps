@@ -1,0 +1,14 @@
+Titre,SousTitre,Saison,Auteur,DateEdition,Description,Image,Document,TypeLivre
+Le Chant du Vent,Voyage intérieur,Printemps,Jean Rakoto,2018-03-15,"Roman poétique sur la quête de soi et la nature.","fichierimage/chantduvent.jpg","fichierpdf/chantduvent.pdf",Roman
+Les Ombres du Temps,Chroniques anciennes,Hiver,Marie Dupont,2020-11-02,"Un thriller historique mêlant passé et présent.","fichierimage/ombresdutemps.jpg","fichierpdf/ombresdutemps.pdf",Roman
+L Art du Code,Programmation moderne,Toute l annee,Paul Martin,2022-06-10,"Guide pratique pour apprendre la programmation propre.","fichierimage/artducode.jpg","fichierpdf/artducode.pdf",Action
+Contes de Madagascar,Traditions et legendes,ete,Rabe Andrianina,2015-08-25,"Recueil de contes traditionnels malgaches.","fichierimage/contesmada.jpg","fichierpdf/contesmada.pdf",Conte
+Science et Futur,Innovations de demain,Automne,Claire Bernard,2021-09-18,"Exploration des avancées scientifiques.","fichierimage/sciencfutur.jpg","fichierpdf/sciencefutur.pdf",ScienceFiction
+Harry Potter à l'école des sorciers,,"Tome 1","J.K. Rowling",1997-06-26,"Le jeune sorcier commence sa formation à Poudlard.","fichierimage/image2.jpg","fichierpdf/pdf1.pdf",Fiction
+Le Seigneur des Anneaux,,"Tome 1","J.R.R. Tolkien",1954-07-29,"Le début de la grande quête de l'Anneau.","fichierimage/image3.jpg","fichierpdf/pdf2.pdf",Fiction
+1984,,,"George Orwell",1949-06-08,"Un classique dystopique sur la surveillance.","fichierimage/2.jpg","fichierpdf/pdf3.pdf",Fiction
+Atomic Habits,,,"James Clear",2018-10-16,"Comment construire de bonnes habitudes.","fichierimage/Commonsense_Direct_n_Digital_Marketing.png","fichierpdf/Commonsense_Direct_n_Digital_Marketing-Drayton_Bird.pdf",Action
+Modern Management,,,"Jon Bright",2021-09-05,"Principes modernes de management et leadership.","fichierimage/Modern_Management_and_Leadership.png","fichierpdf/Modern_Management_and_Leadership-Jon_Bright.pdf",Management
+Grammatik Aktiv,,,"Collectif",2021-08-20,"Méthode complète d'allemand A1 à B1.","fichierimage/GrammatikAktivA1-B1.png","fichierpdf/GrammatikAktivA1-B1.pdf",Manuel
+Le Petit Prince,,,"Antoine de Saint-Exupéry",1943-04-06,"Classique intemporel de la littérature jeunesse.","fichierimage/chantduvent.jpg","fichierpdf/chantduvent.pdf",Roman
+Dune,,,"Frank Herbert",1965-08-01,"Chef-d'œuvre de science-fiction.","fichierimage/sciencfutur.jpg","fichierpdf/sciencefutur.pdf",ScienceFiction

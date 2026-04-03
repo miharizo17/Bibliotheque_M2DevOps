@@ -73,6 +73,8 @@ namespace LibraryBackOffice.Controllers
             {
                 return NotFound();
             }
+            var typesLivre = _context.TypeLivres.ToList();
+            ViewBag.TypeLivreList = new SelectList(typesLivre,"Id","Type_Livre");
 
             return View(livre);
         }
